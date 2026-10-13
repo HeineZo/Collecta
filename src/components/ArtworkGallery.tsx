@@ -1,5 +1,6 @@
-import { ImageOff, Maximize2 } from "lucide-react";
+import { Maximize2 } from "lucide-react";
 import { useState } from "react";
+import { NoImageNotice } from "./NoImageNotice";
 
 interface ArtworkGalleryProps {
   title: string;
@@ -36,10 +37,7 @@ export function ArtworkGallery({ title, imageUrls, className = "" }: ArtworkGall
             )}
           </>
         ) : (
-          <div className="artwork-gallery__no-image flex size-full flex-col items-center justify-center gap-2 text-sm text-muted">
-            <ImageOff aria-hidden className="size-8" strokeWidth={1.5} />
-            No public image
-          </div>
+          <NoImageNotice className="artwork-gallery__no-image size-full text-muted" />
         )}
       </figure>
 

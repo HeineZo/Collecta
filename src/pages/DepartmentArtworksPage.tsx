@@ -7,6 +7,7 @@ import { ErrorState } from "../components/ErrorState";
 import { LoadMoreButton } from "../components/LoadMoreButton";
 import { PageBreadcrumbs } from "../components/PageBreadcrumbs";
 import { PageHeader } from "../components/PageHeader";
+import { ResultCount } from "../components/ResultCount";
 import { SearchBar } from "../components/SearchBar";
 import { useDebouncedValue } from "../hooks/useDebouncedValue";
 import { useDepartmentArtworks } from "../hooks/useDepartmentArtworks";
@@ -50,9 +51,7 @@ export function DepartmentArtworksPage() {
           className="flex-[1_1_320px] md:max-w-[420px]"
         />
         <ArtworkFilters value={filters} onChange={setFilters} />
-        <p aria-live="polite" className="text-sm text-muted md:ml-auto">
-          {artworks.objectIds && `${formatNumber(artworks.resultCount)} works`}
-        </p>
+        <ResultCount count={artworks.objectIds && artworks.resultCount} noun="works" className="md:ml-auto" />
       </section>
 
       <section aria-label="Artworks" className="department-artworks__results mt-6 md:mt-8">

@@ -1,11 +1,11 @@
 import { Chip } from "@heroui/react";
-import { ImageOff } from "lucide-react";
 import { Link } from "react-router";
 import useSWR from "swr";
 import { fetchDepartmentHighlightId } from "../api/departmentsApi";
-import { fetchMuseumObject } from "../api/objectsApi";
+import { useMuseumObject } from "../hooks/useMuseumObject";
 import { formatNumber } from "../lib/formatNumber";
 import type { Department } from "../models/Department";
+import { NoImageNotice } from "./NoImageNotice";
 
 interface DepartmentCardProps {
   department: Department;
@@ -19,9 +19,7 @@ export function DepartmentCard({ department, totalWorks, isFeatured = false, isP
   const { data: highlightId } = useSWR(["department-highlight", department.departmentId], () =>
     fetchDepartmentHighlightId(department.departmentId),
   );
-  const { data: highlight } = useSWR(highlightId ? ["museum-object", highlightId] : null, ([, objectId]) =>
-    fetchMuseumObject(objectId),
-  );
+  const { data: highlight } = useMuseumObject(highlightId);
 
   const coverUrl = highlight?.primaryImageSmall;
   const isCoverMissing = highlightId === null || (highlight !== undefined && !coverUrl);
@@ -37,10 +35,7 @@ export function DepartmentCard({ department, totalWorks, isFeatured = false, isP
         <img src={coverUrl} alt={highlight.title} loading="lazy" className="department-card__cover size-full object-cover" />
       )}
       {isCoverMissing && (
-        <div className="department-card__no-cover flex size-full flex-col items-center justify-center gap-2 bg-[#18181b] text-sm text-[#a1a1aa]">
-          <ImageOff aria-hidden className="size-8" strokeWidth={1.5} />
-          No public image
-        </div>
+        <NoImageNotice className="department-card__no-cover size-full bg-[#18181b] text-[#a1a1aa]" />
       )}
       {!isPlaceholder && (
         <>
