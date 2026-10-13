@@ -8,7 +8,7 @@ export function ArtworkCard({ objectId }: { objectId: number }) {
   const details = [artwork?.culture, artwork?.objectDate].filter(Boolean).join(" · ");
 
   return (
-    <Link to={`artworks/${objectId}`} className="artwork-card mb-5 block break-inside-avoid md:mb-7">
+    <Link to={`artworks/${objectId}`} className="artwork-card mb-5 block md:mb-7">
       {artwork?.primaryImageSmall ? (
         <img
           src={artwork.primaryImageSmall}

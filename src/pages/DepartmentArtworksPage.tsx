@@ -1,7 +1,7 @@
 import { Breadcrumbs, Button, ToggleButton, ToggleButtonGroup } from "@heroui/react";
 import { Skeleton } from "boneyard-js/react";
 import { Star } from "lucide-react";
-import { useState } from "react";
+import { type ReactNode, useState, useSyncExternalStore } from "react";
 import { useParams } from "react-router";
 import useSWR from "swr";
 import useSWRInfinite from "swr/infinite";
@@ -15,7 +15,6 @@ import type { ArtworkFilter } from "../models/ArtworkFilter";
 
 const PAGE_SIZE = 20;
 const SEARCH_DEBOUNCE_MS = 400;
-const ARTWORK_GRID_CLASS = "department-artworks__grid columns-2 gap-3 md:columns-[240px_4] md:gap-5";
 const SKELETON_IMAGE_RATIOS = ["2 / 3", "4 / 5", "5 / 4", "4 / 5", "3 / 2", "2 / 3", "3 / 4", "1 / 1"];
 
 const numberFormat = new Intl.NumberFormat("en-US");
@@ -104,11 +103,11 @@ export function DepartmentArtworksPage() {
           <Skeleton name="artwork-grid" loading={!pages} fixture={<ArtworkGridFixture />} select="viewport">
             {pages &&
               (objectIds.length > 0 ? (
-                <div className={ARTWORK_GRID_CLASS}>
-                  {objectIds.map((objectId) => (
+                <MasonryGrid
+                  items={objectIds.map((objectId) => (
                     <ArtworkCard key={objectId} objectId={objectId} />
                   ))}
-                </div>
+                />
               ) : (
                 <p className="department-artworks__empty text-muted">No artwork matches these filters.</p>
               ))}
@@ -132,14 +131,42 @@ export function DepartmentArtworksPage() {
 
 function ArtworkGridFixture() {
   return (
-    <div className={ARTWORK_GRID_CLASS}>
-      {SKELETON_IMAGE_RATIOS.map((aspectRatio, index) => (
-        <div key={index} className="mb-5 break-inside-avoid md:mb-7">
+    <MasonryGrid
+      items={SKELETON_IMAGE_RATIOS.map((aspectRatio, index) => (
+        <div key={index} className="mb-5 md:mb-7">
           <div className="rounded-[20px]" style={{ aspectRatio }} />
           <div className="mt-3 h-4 w-4/5 rounded-full" />
           <div className="mt-2 h-3.5 w-1/2 rounded-full" />
         </div>
       ))}
+    />
+  );
+}
+
+function MasonryGrid({ items }: { items: ReactNode[] }) {
+  const columnCount = useColumnCount();
+  const columns = Array.from({ length: columnCount }, (_, column) =>
+    items.filter((_, index) => index % columnCount === column),
+  );
+  return (
+    <div className="department-artworks__grid flex items-start gap-3 md:gap-5">
+      {columns.map((column, index) => (
+        <div key={index} className="department-artworks__column flex min-w-0 flex-1 flex-col">
+          {column}
+        </div>
+      ))}
     </div>
   );
+}
+
+// Same breakpoints as Tailwind's md (48rem) and lg (64rem).
+function useColumnCount() {
+  return useSyncExternalStore(subscribeToResize, () =>
+    window.matchMedia("(min-width: 64rem)").matches ? 4 : window.matchMedia("(min-width: 48rem)").matches ? 3 : 2,
+  );
+}
+
+function subscribeToResize(onResize: () => void) {
+  window.addEventListener("resize", onResize);
+  return () => window.removeEventListener("resize", onResize);
 }
