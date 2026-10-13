@@ -32,6 +32,9 @@
     /* Kept clearly apart from the vermilion accent so an error never reads as a primary action. */
     --danger: #be123c;
     --danger-foreground: #ffffff;
+    
+    --highlight: #75541a;
+    --highlight-background: rgba(138, 101, 36, 0.12);
 
     --field-background: #ffffff;
     --field-foreground: #0a0a0b;
@@ -58,6 +61,9 @@
     --accent-foreground: #09090b;
     --danger: #f43f5e;
     --danger-foreground: #09090b;
+    
+    --highlight: #d9b97f;
+    --highlight-background: rgba(201, 164, 106, 0.14);
 
     --field-background: #18181b;
     --field-foreground: #fafafa;

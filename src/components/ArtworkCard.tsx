@@ -1,4 +1,5 @@
 import { ImageOff } from "lucide-react";
+import { Link } from "react-router";
 import useSWR from "swr";
 import { fetchMuseumObject } from "../api/objectsApi";
 
@@ -7,7 +8,7 @@ export function ArtworkCard({ objectId }: { objectId: number }) {
   const details = [artwork?.culture, artwork?.objectDate].filter(Boolean).join(" · ");
 
   return (
-    <article className="artwork-card mb-5 break-inside-avoid md:mb-7">
+    <Link to={`artworks/${objectId}`} className="artwork-card mb-5 block break-inside-avoid md:mb-7">
       {artwork?.primaryImageSmall ? (
         <img
           src={artwork.primaryImageSmall}
@@ -31,6 +32,6 @@ export function ArtworkCard({ objectId }: { objectId: number }) {
           {details && <p className="text-[13px] text-muted md:text-sm">{details}</p>}
         </div>
       )}
-    </article>
+    </Link>
   );
 }

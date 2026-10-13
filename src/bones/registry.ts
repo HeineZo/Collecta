@@ -4,8 +4,10 @@ import { registerBones } from 'boneyard-js'
 
 import _department_grid from './department-grid.bones.json'
 import _artwork_grid from './artwork-grid.bones.json'
+import _artwork_detail from './artwork-detail.bones.json'
 
 registerBones({
   "department-grid": _department_grid,
   "artwork-grid": _artwork_grid,
+  "artwork-detail": _artwork_detail,
 })
