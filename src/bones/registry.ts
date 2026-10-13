@@ -3,7 +3,9 @@
 import { registerBones } from 'boneyard-js'
 
 import _department_grid from './department-grid.bones.json'
+import _artwork_grid from './artwork-grid.bones.json'
 
 registerBones({
   "department-grid": _department_grid,
+  "artwork-grid": _artwork_grid,
 })

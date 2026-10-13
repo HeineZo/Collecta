@@ -1,5 +1,6 @@
 import { Chip } from "@heroui/react";
 import { ImageOff } from "lucide-react";
+import { Link } from "react-router";
 import useSWR from "swr";
 import { fetchDepartmentHighlightId } from "../api/departmentsApi";
 import { fetchMuseumObject } from "../api/objectsApi";
@@ -27,8 +28,9 @@ export function DepartmentCard({ department, totalWorks, isFeatured = false, isP
   const isCoverMissing = highlightId === null || (highlight !== undefined && !coverUrl);
 
   return (
-    <article
-      className={`department-card relative overflow-hidden bg-surface-tertiary ${
+    <Link
+      to={`/departments/${department.departmentId}`}
+      className={`department-card relative block overflow-hidden bg-surface-tertiary ${
         isFeatured ? "department-card--featured h-[420px] rounded-[30px] md:h-[460px]" : "h-60 rounded-3xl md:h-80"
       }`}
     >
@@ -54,6 +56,6 @@ export function DepartmentCard({ department, totalWorks, isFeatured = false, isP
           </div>
         </>
       )}
-    </article>
+    </Link>
   );
 }

@@ -1,4 +1,4 @@
-import { SearchField, ToggleButton, ToggleButtonGroup } from "@heroui/react";
+import { ToggleButton, ToggleButtonGroup } from "@heroui/react";
 import Scritto from "@scritto/react";
 import { Skeleton } from "boneyard-js/react";
 import { useEffect, useMemo, useState } from "react";
@@ -7,6 +7,7 @@ import { fetchDepartments, fetchDepartmentTotal } from "../api/departmentsApi";
 import { AppLayout } from "../components/AppLayout";
 import { DepartmentCard } from "../components/DepartmentCard";
 import { ErrorState } from "../components/ErrorState";
+import { SearchBar } from "../components/SearchBar";
 import type { DepartmentWithTotal } from "../models/DepartmentWithTotal";
 
 type SortOrder = "most-works" | "alphabetical";
@@ -75,13 +76,7 @@ export function DepartmentListPage() {
         </div>
 
         <div className="department-list__controls flex w-full max-w-[440px] flex-col gap-3.5">
-          <SearchField aria-label="Search departments" value={searchQuery} onChange={setSearchQuery} fullWidth>
-            <SearchField.Group>
-              <SearchField.SearchIcon />
-              <SearchField.Input placeholder="Search a department" />
-              <SearchField.ClearButton />
-            </SearchField.Group>
-          </SearchField>
+          <SearchBar label="Search a department" value={searchQuery} onChange={setSearchQuery} />
           <div className="flex items-center justify-between gap-4">
             <ToggleButtonGroup
               aria-label="Sort departments"
