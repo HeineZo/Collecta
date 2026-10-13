@@ -1,0 +1,68 @@
+@import "tailwindcss";
+@import "@heroui/styles";
+
+@theme {
+  --font-sans: "Hanken Grotesk", ui-sans-serif, system-ui, sans-serif;
+}
+
+/*
+ * Collecta theme: cool zinc neutrals + a single vermilion accent.
+ * Overrides HeroUI's default theme variables (declared in the earlier `theme` layer).
+ * Light by default; `.dark` is toggled from the OS preference in index.html.
+ */
+@layer base {
+  :root {
+    --radius: 0.75rem;
+    --field-border-width: 1px;
+
+    --background: #fafafa;
+    --foreground: #0a0a0b;
+    --surface: #ffffff;
+    --surface-secondary: #f4f4f5;
+    --surface-tertiary: #f0f0f2;
+    --overlay: #ffffff;
+    --muted: #6b6b73;
+    --default: #f0f0f2;
+    --default-foreground: #0a0a0b;
+    --segment: #ffffff;
+    --segment-foreground: #0a0a0b;
+
+    --accent: #d4300a;
+    --accent-foreground: #ffffff;
+    /* Kept clearly apart from the vermilion accent so an error never reads as a primary action. */
+    --danger: #be123c;
+    --danger-foreground: #ffffff;
+
+    --field-background: #ffffff;
+    --field-foreground: #0a0a0b;
+    --field-border: #e6e6e9;
+    --border: #e6e6e9;
+    --separator: #ececef;
+  }
+
+  .dark {
+    --background: #09090b;
+    --foreground: #fafafa;
+    --surface: #18181b;
+    --surface-secondary: #1f1f23;
+    --surface-tertiary: #27272a;
+    --overlay: #18181b;
+    --muted: #a1a1aa;
+    --default: #27272a;
+    --default-foreground: #fafafa;
+    --segment: #3f3f46;
+    --segment-foreground: #fafafa;
+
+    /* Lighter vermilion with dark text: white on it would fail contrast. */
+    --accent: #ff6a3d;
+    --accent-foreground: #09090b;
+    --danger: #f43f5e;
+    --danger-foreground: #09090b;
+
+    --field-background: #18181b;
+    --field-foreground: #fafafa;
+    --field-border: #3f3f46;
+    --border: #3f3f46;
+    --separator: #27272a;
+  }
+}
