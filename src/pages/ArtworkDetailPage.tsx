@@ -1,4 +1,4 @@
-import { Breadcrumbs, Chip } from "@heroui/react";
+import { Chip } from "@heroui/react";
 import { buttonVariants } from "@heroui/styles";
 import { Skeleton } from "boneyard-js/react";
 import { ExternalLink, Star } from "lucide-react";
@@ -9,6 +9,7 @@ import { fetchMuseumObject } from "../api/objectsApi";
 import { AppLayout } from "../components/AppLayout";
 import { ArtworkGallery } from "../components/ArtworkGallery";
 import { ErrorState } from "../components/ErrorState";
+import { PageBreadcrumbs } from "../components/PageBreadcrumbs";
 import { findArtworkLocation } from "../data/artworkLocations";
 import type { MuseumObject } from "../models/MuseumObject";
 
@@ -27,11 +28,13 @@ export function ArtworkDetailPage() {
 
   return (
     <AppLayout>
-      <Breadcrumbs className="artwork-detail__breadcrumbs flex-wrap">
-        <Breadcrumbs.Item href="/">Departments</Breadcrumbs.Item>
-        <Breadcrumbs.Item href={`/departments/${departmentId}`}>{artwork?.department}</Breadcrumbs.Item>
-        <Breadcrumbs.Item className="shrink">{artwork?.title}</Breadcrumbs.Item>
-      </Breadcrumbs>
+      <PageBreadcrumbs
+        links={[
+          { label: "Departments", href: "/" },
+          { label: artwork?.department, href: `/departments/${departmentId}` },
+          { label: artwork?.title },
+        ]}
+      />
 
       {artworkQuery.error ? (
         <ErrorState

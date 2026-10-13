@@ -4,6 +4,7 @@ import { Link } from "react-router";
 import useSWR from "swr";
 import { fetchDepartmentHighlightId } from "../api/departmentsApi";
 import { fetchMuseumObject } from "../api/objectsApi";
+import { formatNumber } from "../lib/formatNumber";
 import type { Department } from "../models/Department";
 
 interface DepartmentCardProps {
@@ -13,8 +14,6 @@ interface DepartmentCardProps {
   // Bare card for the boneyard capture, which only paints elements without children.
   isPlaceholder?: boolean;
 }
-
-const numberFormat = new Intl.NumberFormat("en-US");
 
 export function DepartmentCard({ department, totalWorks, isFeatured = false, isPlaceholder = false }: DepartmentCardProps) {
   const { data: highlightId } = useSWR(["department-highlight", department.departmentId], () =>
@@ -46,7 +45,7 @@ export function DepartmentCard({ department, totalWorks, isFeatured = false, isP
       {!isPlaceholder && (
         <>
           <Chip size="sm" className="department-card__total absolute left-3 top-3 bg-black/55 text-white backdrop-blur-md">
-            {numberFormat.format(totalWorks)} works
+            {formatNumber(totalWorks)} works
           </Chip>
           <div className="department-card__caption absolute inset-x-0 bottom-0 flex flex-col gap-1 bg-linear-to-b from-transparent to-black/60 p-4 pt-16 text-white md:p-5 md:pt-20">
             <h2 className={`font-medium leading-tight tracking-tight ${isFeatured ? "text-3xl md:text-5xl" : "text-base md:text-lg"}`}>
