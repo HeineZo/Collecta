@@ -2,13 +2,19 @@ import { Breadcrumbs, Chip } from "@heroui/react";
 import { buttonVariants } from "@heroui/styles";
 import { Skeleton } from "boneyard-js/react";
 import { ExternalLink, Star } from "lucide-react";
+import { lazy, Suspense } from "react";
 import { useParams } from "react-router";
 import useSWR from "swr";
 import { fetchMuseumObject } from "../api/objectsApi";
 import { AppLayout } from "../components/AppLayout";
 import { ArtworkGallery } from "../components/ArtworkGallery";
 import { ErrorState } from "../components/ErrorState";
+import { findArtworkLocation } from "../data/artworkLocations";
 import type { MuseumObject } from "../models/MuseumObject";
+
+const ArtworkOriginMap = lazy(() =>
+  import("../components/ArtworkOriginMap").then((module) => ({ default: module.ArtworkOriginMap })),
+);
 
 const LAYOUT_CLASS = "artwork-detail__layout flex flex-wrap items-start gap-8 md:gap-14";
 const GALLERY_COLUMN_CLASS = "min-w-0 flex-[1_1_480px] md:max-w-[560px]";
@@ -60,6 +66,7 @@ function ArtworkDetail({ artwork }: { artwork: MuseumObject }) {
     ["Credit", artwork.creditLine],
   ].filter(([, value]) => value);
   const tags = artwork.tags ?? [];
+  const location = findArtworkLocation(artwork);
 
   return (
     <div className={LAYOUT_CLASS}>
@@ -100,6 +107,18 @@ function ArtworkDetail({ artwork }: { artwork: MuseumObject }) {
                 </div>
               ))}
             </dl>
+          </section>
+        )}
+
+        {location && (
+          <section className="artwork-detail__origin flex flex-col gap-3 md:gap-3.5">
+            <h2 className="text-xl font-medium tracking-tight md:text-[22px]">Where it was made</h2>
+            <Suspense fallback={<div className="h-[200px] rounded-3xl bg-surface-tertiary md:h-[240px]" />}>
+              <ArtworkOriginMap location={location} />
+            </Suspense>
+            <p className="text-[13px] text-muted md:text-sm">
+              Approximate location, based on the {location.basis} “{location.basisValue}”.
+            </p>
           </section>
         )}
 

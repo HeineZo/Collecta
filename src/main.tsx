@@ -7,11 +7,20 @@ import { AppRoutes } from "./components/AppRoutes";
 import "./index.css";
 
 // Flag set by `npm run bones` (boneyard's headless capture) in the page it snapshots.
-const isSkeletonCapture = () => (window as { __BONEYARD_BUILD?: boolean }).__BONEYARD_BUILD === true;
+const isSkeletonCapture = () =>
+  (window as { __BONEYARD_BUILD?: boolean }).__BONEYARD_BUILD === true;
+
+const swrConfig = {
+  /* The collection rarely changes: cached data is reused rather than refetched, sparing the Met's rate limit. */
+  revalidateOnFocus: false,
+  revalidateIfStale: false,
+  errorRetryCount: 1,
+  isPaused: isSkeletonCapture,
+};
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
-    <SWRConfig value={{ revalidateOnFocus: false, errorRetryCount: 1, isPaused: isSkeletonCapture }}>
+    <SWRConfig value={swrConfig}>
       <BrowserRouter>
         <AppRoutes />
       </BrowserRouter>

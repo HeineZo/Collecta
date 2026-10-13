@@ -10,6 +10,7 @@ export interface MuseumObject {
   GalleryNumber: string;
   department: string;
   culture: string;
+  country: string;
   objectDate: string;
   period: string;
   medium: string;

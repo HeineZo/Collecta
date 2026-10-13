@@ -72,3 +72,25 @@
     --separator: #27272a;
   }
 }
+
+/* Styles shipped with the mapcn map (src/components/ui/map.tsx), mapped onto HeroUI's colour names. */
+@layer base {
+  .maplibregl-popup-content {
+    @apply bg-transparent! p-0! shadow-none! rounded-none!;
+  }
+  .maplibregl-popup-tip {
+    @apply hidden!;
+  }
+  .maplibregl-ctrl-attrib {
+    @apply rounded-md! border! border-border! bg-background! text-muted! shadow-sm!;
+  }
+  .maplibregl-ctrl-attrib a {
+    @apply text-muted!;
+  }
+  .maplibregl-ctrl-attrib a:hover {
+    @apply text-foreground!;
+  }
+  .maplibregl-ctrl-attrib-button {
+    @apply bg-transparent! dark:invert;
+  }
+}

@@ -44,6 +44,7 @@ export function DepartmentArtworksPage() {
         offset: pageIndex * PAGE_SIZE,
         limit: PAGE_SIZE,
       }),
+    { revalidateFirstPage: false },
   );
   const pages = artworksQuery.data;
   const objectIds = pages?.flatMap((page) => page.objectIDs ?? []) ?? [];
