@@ -1,3 +1,4 @@
+import { ViewTransition } from "react";
 import { Link } from "react-router";
 import { useMuseumObject } from "../hooks/useMuseumObject";
 import { formatArtworkOrigin } from "../lib/formatArtworkOrigin";
@@ -10,12 +11,14 @@ export function ArtworkCard({ objectId }: { objectId: number }) {
   return (
     <Link to={`artworks/${objectId}`} className="artwork-card mb-5 block md:mb-7">
       {artwork?.primaryImageSmall ? (
-        <img
-          src={artwork.primaryImageSmall}
-          alt={artwork.title}
-          loading="lazy"
-          className="artwork-card__image min-h-40 w-full rounded-[20px] bg-surface-tertiary object-cover"
-        />
+        <ViewTransition name={`artwork-image-${objectId}`} share="artwork-image">
+          <img
+            src={artwork.primaryImageSmall}
+            alt={artwork.title}
+            loading="lazy"
+            className="artwork-card__image min-h-40 w-full rounded-[20px] bg-surface-tertiary object-cover"
+          />
+        </ViewTransition>
       ) : artwork ? (
         <NoImageNotice className="artwork-card__no-image aspect-[4/5] rounded-[20px] bg-surface-tertiary text-muted" />
       ) : (

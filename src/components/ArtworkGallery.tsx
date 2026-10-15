@@ -1,9 +1,11 @@
 import { Maximize2 } from "lucide-react";
-import { useState } from "react";
+import { useState, ViewTransition } from "react";
 import { NoImageNotice } from "./NoImageNotice";
 
 interface ArtworkGalleryProps {
   title: string;
+  // Shared with the artwork's card so the image morphs between the two pages.
+  viewTransitionName: string;
   imageUrls: string[];
   className?: string;
 }
@@ -11,35 +13,37 @@ interface ArtworkGalleryProps {
 // shortcut: relies on the Met's "/original/" → "/web-large/" URL convention; switch to the originals if it breaks.
 const toWebLarge = (imageUrl: string) => imageUrl.replace("/original/", "/web-large/");
 
-export function ArtworkGallery({ title, imageUrls, className = "" }: ArtworkGalleryProps) {
+export function ArtworkGallery({ title, viewTransitionName, imageUrls, className = "" }: ArtworkGalleryProps) {
   const [selectedIndex, setSelectedIndex] = useState(0);
   const selectedUrl = imageUrls[selectedIndex];
 
   return (
     <section aria-label="Images of this work" className={`artwork-gallery flex flex-col gap-4 ${className}`}>
-      <figure className="artwork-gallery__main relative aspect-[4/5] overflow-hidden rounded-3xl bg-surface-tertiary md:rounded-[28px]">
-        {selectedUrl ? (
-          <>
-            <img src={toWebLarge(selectedUrl)} alt={title} className="size-full object-contain" />
-            <a
-              href={selectedUrl}
-              target="_blank"
-              rel="noreferrer"
-              aria-label="Open the full-size image"
-              className="artwork-gallery__full-size absolute right-4 top-4 flex size-11 items-center justify-center rounded-full bg-black/50 text-white backdrop-blur-md"
-            >
-              <Maximize2 aria-hidden className="size-5" strokeWidth={1.8} />
-            </a>
-            {imageUrls.length > 1 && (
-              <span className="artwork-gallery__counter absolute bottom-4 right-4 rounded-full bg-black/50 px-3 py-1 text-[13px] text-white backdrop-blur-md">
-                {selectedIndex + 1} / {imageUrls.length}
-              </span>
-            )}
-          </>
-        ) : (
-          <NoImageNotice className="artwork-gallery__no-image size-full text-muted" />
-        )}
-      </figure>
+      <ViewTransition name={viewTransitionName} share="artwork-image">
+        <figure className="artwork-gallery__main relative aspect-[4/5] overflow-hidden rounded-3xl bg-surface-tertiary md:rounded-[28px]">
+          {selectedUrl ? (
+            <>
+              <img src={toWebLarge(selectedUrl)} alt={title} className="size-full object-contain" />
+              <a
+                href={selectedUrl}
+                target="_blank"
+                rel="noreferrer"
+                aria-label="Open the full-size image"
+                className="artwork-gallery__full-size absolute right-4 top-4 flex size-11 items-center justify-center rounded-full bg-black/50 text-white backdrop-blur-md"
+              >
+                <Maximize2 aria-hidden className="size-5" strokeWidth={1.8} />
+              </a>
+              {imageUrls.length > 1 && (
+                <span className="artwork-gallery__counter absolute bottom-4 right-4 rounded-full bg-black/50 px-3 py-1 text-[13px] text-white backdrop-blur-md">
+                  {selectedIndex + 1} / {imageUrls.length}
+                </span>
+              )}
+            </>
+          ) : (
+            <NoImageNotice className="artwork-gallery__no-image size-full text-muted" />
+          )}
+        </figure>
+      </ViewTransition>
 
       {imageUrls.length > 1 && (
         <div className="artwork-gallery__thumbnails flex gap-2.5 overflow-x-auto pb-1">

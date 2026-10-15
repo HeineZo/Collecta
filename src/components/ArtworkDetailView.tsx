@@ -31,6 +31,7 @@ export function ArtworkDetailView({
           <ArtworkGallery
             key={artwork.objectID}
             title={artwork.title}
+            viewTransitionName={`artwork-image-${artwork.objectID}`}
             imageUrls={[
               artwork.primaryImage,
               ...artwork.additionalImages,

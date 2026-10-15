@@ -1,9 +1,10 @@
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
-import { BrowserRouter } from "react-router";
+import { unstable_HistoryRouter as HistoryRouter } from "react-router";
 import { SWRConfig } from "swr";
 import "./bones/registry";
 import { AppRoutes } from "./components/AppRoutes";
+import { browserHistory } from "./lib/browserHistory";
 import "./index.css";
 
 // Flag set by `npm run bones` (boneyard's headless capture) in the page it snapshots.
@@ -21,9 +22,9 @@ const swrConfig = {
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <SWRConfig value={swrConfig}>
-      <BrowserRouter>
+      <HistoryRouter history={browserHistory}>
         <AppRoutes />
-      </BrowserRouter>
+      </HistoryRouter>
     </SWRConfig>
   </StrictMode>,
 );
