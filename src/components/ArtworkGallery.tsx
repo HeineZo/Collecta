@@ -21,7 +21,7 @@ export function ArtworkGallery({ title, viewTransitionName, imageUrls, className
   return (
     <section aria-label="Images of this work" className={`artwork-gallery flex flex-col gap-4 ${className}`}>
       <ViewTransition name={viewTransitionName} share="artwork-image">
-        <figure className="artwork-gallery__main relative aspect-[4/5] overflow-hidden rounded-3xl bg-surface-tertiary md:rounded-[28px]">
+        <figure className="artwork-gallery__main relative aspect-[4/5] overflow-hidden rounded-artwork bg-surface-tertiary">
           {selectedUrl ? (
             <>
               <Lens zoomFactor={2} lensSize={180} className="artwork-gallery__lens size-full rounded-none">

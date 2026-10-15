@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { useParams } from "react-router";
 import { AppLayout } from "../components/AppLayout";
 import { ArtworkFilters } from "../components/ArtworkFilters";
@@ -9,19 +8,18 @@ import { PageBreadcrumbs } from "../components/PageBreadcrumbs";
 import { PageHeader } from "../components/PageHeader";
 import { ResultCount } from "../components/ResultCount";
 import { SearchBar } from "../components/SearchBar";
+import { useArtworkSearchParams } from "../hooks/useArtworkSearchParams";
 import { useDebouncedValue } from "../hooks/useDebouncedValue";
 import { useDepartmentArtworks } from "../hooks/useDepartmentArtworks";
 import { useDepartmentSummary } from "../hooks/useDepartmentSummary";
 import { formatNumber } from "../lib/formatNumber";
-import type { ArtworkFilter } from "../models/ArtworkFilter";
 
 const SEARCH_DEBOUNCE_MS = 400;
 
 export function DepartmentArtworksPage() {
   const departmentId = Number(useParams().departmentId);
-  const [searchQuery, setSearchQuery] = useState("");
+  const { searchQuery, setSearchQuery, filters, setFilters } = useArtworkSearchParams();
   const debouncedSearchQuery = useDebouncedValue(searchQuery, SEARCH_DEBOUNCE_MS);
-  const [filters, setFilters] = useState<ArtworkFilter[]>(["isHighlight"]);
 
   const department = useDepartmentSummary(departmentId);
   const artworks = useDepartmentArtworks(departmentId, debouncedSearchQuery, filters);

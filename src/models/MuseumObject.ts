@@ -12,6 +12,7 @@ export interface MuseumObject {
   culture: string;
   country: string;
   objectDate: string;
+  objectEndDate: number;
   period: string;
   medium: string;
   classification: string;

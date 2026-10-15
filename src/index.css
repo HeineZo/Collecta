@@ -3,6 +3,7 @@
 
 @theme {
   --font-sans: "Hanken Grotesk", ui-sans-serif, system-ui, sans-serif;
+  --radius-artwork: 24px;
 }
 
 /*
@@ -104,6 +105,16 @@
 
 ::view-transition-group(.artwork-image) {
   z-index: 1;
+  border-radius: var(--radius-artwork);
+  overflow: clip;
+}
+
+.oldest-artwork-card__overlay {
+  transition: opacity 300ms ease-out;
+}
+:root:active-view-transition .oldest-artwork-card__overlay {
+  opacity: 0;
+  transition: none;
 }
 
 @media (prefers-reduced-motion: reduce) {

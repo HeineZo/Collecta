@@ -27,7 +27,7 @@ function ArtworkGridFixture() {
     <MasonryGrid
       items={SKELETON_IMAGE_RATIOS.map((aspectRatio, index) => (
         <div key={index} className="mb-5 md:mb-7">
-          <div className="rounded-[20px]" style={{ aspectRatio }} />
+          <div className="rounded-artwork" style={{ aspectRatio }} />
           <div className="mt-3 h-4 w-4/5 rounded-full" />
           <div className="mt-2 h-3.5 w-1/2 rounded-full" />
         </div>

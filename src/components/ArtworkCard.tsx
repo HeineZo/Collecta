@@ -16,13 +16,13 @@ export function ArtworkCard({ objectId }: { objectId: number }) {
             src={artwork.primaryImageSmall}
             alt={artwork.title}
             loading="lazy"
-            className="artwork-card__image min-h-40 w-full rounded-[20px] bg-surface-tertiary object-cover"
+            className="artwork-card__image min-h-40 w-full rounded-artwork bg-surface-tertiary object-cover"
           />
         </ViewTransition>
       ) : artwork ? (
-        <NoImageNotice className="artwork-card__no-image aspect-[4/5] rounded-[20px] bg-surface-tertiary text-muted" />
+        <NoImageNotice className="artwork-card__no-image aspect-[4/5] rounded-artwork bg-surface-tertiary text-muted" />
       ) : (
-        <div className="artwork-card__loading aspect-[4/5] rounded-[20px] bg-surface-tertiary" />
+        <div className="artwork-card__loading aspect-[4/5] rounded-artwork bg-surface-tertiary" />
       )}
       {artwork && (
         <div className="artwork-card__caption mt-3 flex flex-col gap-1">

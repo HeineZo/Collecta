@@ -57,7 +57,7 @@ function ArtworkDetailFixture() {
   return (
     <div className={LAYOUT_CLASS}>
       <div className={`flex flex-col gap-4 ${GALLERY_COLUMN_CLASS}`}>
-        <div className="aspect-[4/5] rounded-3xl md:rounded-[28px]" />
+        <div className="aspect-[4/5] rounded-artwork" />
         <div className="flex gap-2.5">
           {Array.from({ length: 5 }, (_, index) => (
             <div
