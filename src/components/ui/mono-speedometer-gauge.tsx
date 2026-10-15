@@ -47,8 +47,8 @@ export function MonoSpeedometerGauge({ title, summary, fraction, readout, captio
         </ResponsiveContainer>
       </div>
       <div className="-mt-8 flex flex-col items-center pb-1 text-center">
-        <span className="font-mono text-xl font-bold tracking-tight tabular-nums sm:text-2xl">{readout}</span>
-        <span className="font-mono text-[10px] uppercase tracking-wider text-muted">{caption}</span>
+        <span className="text-xl font-semibold tracking-tight tabular-nums sm:text-2xl">{readout}</span>
+        <span className="text-[10px] uppercase tracking-wider text-muted">{caption}</span>
       </div>
     </MonoChartCard>
   );

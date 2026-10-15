@@ -107,7 +107,7 @@ function Tile({ id, x, y, width, height, name, value, tone, depth, total, format
           fontWeight={600}
         >
           {name.length * 6 > width - 16 ? `${name.slice(0, Math.max(Math.floor((width - 16) / 6) - 1, 1))}…` : name}
-          <tspan x={x + 10} dy={15} fontSize={10} fontWeight={400} fontFamily="var(--font-mono)" opacity={0.8}>
+          <tspan x={x + 10} dy={15} fontSize={10} fontWeight={400} opacity={0.8}>
             {formatValue(value)} · {Math.round((value / total) * 100)}%
           </tspan>
         </text>

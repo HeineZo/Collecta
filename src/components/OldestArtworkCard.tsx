@@ -61,7 +61,7 @@ export function OldestArtworkCard({ departmentId, artwork }: OldestArtworkCardPr
         <p className="text-5xl font-bold leading-none tracking-tight tabular-nums">{formatNumber(age)}+</p>
         <p className="line-clamp-2 text-sm font-medium">years old · {artwork.title}</p>
         {artwork.objectDate && (
-          <p className={`font-mono text-xs ${hasImage ? "text-white/70" : "text-muted"}`}>{artwork.objectDate}</p>
+          <p className={`text-xs ${hasImage ? "text-white/70" : "text-muted"}`}>{artwork.objectDate}</p>
         )}
       </div>
     </Link>

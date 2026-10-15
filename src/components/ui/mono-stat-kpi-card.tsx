@@ -23,7 +23,7 @@ export function MonoStatKpiCard({ label, value, hint, children, className }: Mon
     >
       <p className="text-sm text-muted">{label}</p>
       <p className="min-h-[1lh] text-2xl font-bold tracking-tight tabular-nums sm:text-3xl">{value}</p>
-      {hint && <p className="font-mono text-xs text-muted">{hint}</p>}
+      {hint && <p className="text-xs text-muted">{hint}</p>}
       {children}
     </div>
   );

@@ -16,10 +16,10 @@ export function DepartmentVisitGauge({ onView }: DepartmentVisitGaugeProps) {
     <MonoSpeedometerGauge
       className="department-visit-gauge"
       title="Time to see it all"
-      summary="full gauge = 1 week"
+      summary="based on a week"
       fraction={(visitSeconds ?? 0) / ONE_WEEK}
       readout={visitSeconds === undefined ? "" : formatDuration(visitSeconds)}
-      caption={`non-stop, ${SECONDS_PER_WORK} s per work on view`}
+      caption={`non-stop, ${SECONDS_PER_WORK}s per work on view`}
     />
   );
 }

@@ -31,7 +31,7 @@ export function MonoChartCard({ title, summary, children, className, stageClassN
     >
       <figcaption className="mb-3 flex flex-wrap items-baseline justify-between gap-2 px-0.5">
         <span className="text-base font-semibold tracking-tight">{title}</span>
-        {summary && <span className="font-mono text-xs text-muted">{summary}</span>}
+        {summary && <span className="text-xs text-muted">{summary}</span>}
       </figcaption>
       <div className={cn("relative w-full flex-1 touch-pan-y rounded-[14px] bg-surface-secondary p-2 text-foreground", stageClassName)}>
         {children}
