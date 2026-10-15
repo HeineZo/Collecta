@@ -1,6 +1,7 @@
 import { Maximize2 } from "lucide-react";
 import { useState, ViewTransition } from "react";
 import { NoImageNotice } from "./NoImageNotice";
+import { Lens } from "./ui/lens";
 
 interface ArtworkGalleryProps {
   title: string;
@@ -23,18 +24,20 @@ export function ArtworkGallery({ title, viewTransitionName, imageUrls, className
         <figure className="artwork-gallery__main relative aspect-[4/5] overflow-hidden rounded-3xl bg-surface-tertiary md:rounded-[28px]">
           {selectedUrl ? (
             <>
-              <img src={toWebLarge(selectedUrl)} alt={title} className="size-full object-contain" />
+              <Lens zoomFactor={2} lensSize={180} className="artwork-gallery__lens size-full rounded-none">
+                <img src={toWebLarge(selectedUrl)} alt={title} className="size-full object-contain" />
+              </Lens>
               <a
                 href={selectedUrl}
                 target="_blank"
                 rel="noreferrer"
                 aria-label="Open the full-size image"
-                className="artwork-gallery__full-size absolute right-4 top-4 flex size-11 items-center justify-center rounded-full bg-black/50 text-white backdrop-blur-md"
+                className="artwork-gallery__full-size absolute right-4 top-4 z-30 flex size-11 items-center justify-center rounded-full bg-black/50 text-white backdrop-blur-md"
               >
                 <Maximize2 aria-hidden className="size-5" strokeWidth={1.8} />
               </a>
               {imageUrls.length > 1 && (
-                <span className="artwork-gallery__counter absolute bottom-4 right-4 rounded-full bg-black/50 px-3 py-1 text-[13px] text-white backdrop-blur-md">
+                <span className="artwork-gallery__counter absolute bottom-4 right-4 z-30 rounded-full bg-black/50 px-3 py-1 text-[13px] text-white backdrop-blur-md">
                   {selectedIndex + 1} / {imageUrls.length}
                 </span>
               )}
