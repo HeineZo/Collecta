@@ -139,6 +139,13 @@
   transition: none;
 }
 
+.avatar-link__avatar img {
+  --avatar-radius: 0.875rem;
+  mask:
+    linear-gradient(#000 0 0) top / 100% calc(100% - var(--avatar-radius)) no-repeat,
+    radial-gradient(circle at 50% calc(100% - var(--avatar-radius)), #000 var(--avatar-radius), transparent 0) no-repeat;
+}
+
 @media (prefers-reduced-motion: reduce) {
   ::view-transition-group(*),
   ::view-transition-old(*),

@@ -6,6 +6,7 @@ import { ArtworkDetailPage } from "../pages/ArtworkDetailPage";
 import { DepartmentArtworksPage } from "../pages/DepartmentArtworksPage";
 import { DepartmentListPage } from "../pages/DepartmentListPage";
 import { InsightsPage } from "../pages/InsightsPage";
+import { MapPage } from "../pages/MapPage";
 
 export function AppRoutes() {
   const navigate = useNavigate();
@@ -22,6 +23,7 @@ export function AppRoutes() {
           <Route path="/" element={<DepartmentListPage />} />
           <Route path="/departments/:departmentId" element={<DepartmentArtworksPage />} />
           <Route path="/departments/:departmentId/artworks/:objectId" element={<ArtworkDetailPage />} />
+          <Route path="/map" element={<MapPage />} />
           <Route path="/insights" element={<InsightsPage />} />
         </Routes>
       </ViewTransition>

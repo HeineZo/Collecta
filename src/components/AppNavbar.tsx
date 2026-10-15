@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link, useLocation } from "react-router";
 import { cn } from "../lib/cn";
+import { AvatarLink } from "./AvatarLink";
 import { Logo } from "./icons/Logo";
 import {
   MobileNav,
@@ -16,7 +17,8 @@ const MOBILE_MENU_ID = "app-navbar-mobile-menu";
 
 export function AppNavbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const isInsights = useLocation().pathname.startsWith("/insights");
+  const { pathname } = useLocation();
+  const isInsights = pathname.startsWith("/insights");
   const links = [
     { name: "Departments", link: "/", isActive: !isInsights },
     { name: "Insights", link: "/insights", isActive: isInsights },
@@ -28,6 +30,7 @@ export function AppNavbar() {
       <NavBody className="h-20 max-w-[1200px] px-6 md:px-10">
         <AppNavbarBrand />
         <NavItems items={links} />
+        <PortfolioLink />
       </NavBody>
 
       <MobileNav className="app-navbar__mobile">
@@ -47,6 +50,7 @@ export function AppNavbar() {
               {link.name}
             </Link>
           ))}
+          <PortfolioLink />
         </MobileNavMenu>
       </MobileNav>
     </Navbar>
@@ -59,5 +63,13 @@ function AppNavbarBrand() {
       <Logo className="h-6 w-auto md:h-7" />
       Collecta
     </Link>
+  );
+}
+
+function PortfolioLink() {
+  return (
+    <AvatarLink href="https://heinezo.github.io/" avatarSrc="/portfolio-avatar.png" className="app-navbar__portfolio">
+      Made by Enzo
+    </AvatarLink>
   );
 }
