@@ -1,5 +1,10 @@
+import { Button } from "@heroui/react";
 import { Maximize2 } from "lucide-react";
-import { useState, ViewTransition } from "react";
+import { startTransition, useState, ViewTransition } from "react";
+import { useArrowKeyNavigation } from "../hooks/useArrowKeyNavigation";
+import { toWebLarge } from "../lib/toWebLarge";
+import { ArtworkLightbox } from "./ArtworkLightbox";
+import { ArtworkPrintPile } from "./ArtworkPrintPile";
 import { NoImageNotice } from "./NoImageNotice";
 import { Lens } from "./ui/lens";
 
@@ -11,31 +16,50 @@ interface ArtworkGalleryProps {
   className?: string;
 }
 
-// shortcut: relies on the Met's "/original/" → "/web-large/" URL convention; switch to the originals if it breaks.
-const toWebLarge = (imageUrl: string) => imageUrl.replace("/original/", "/web-large/");
+const MAIN_IMAGE_CLASS = "block h-auto max-h-[calc(100dvh-19rem)] w-auto max-w-full";
 
 export function ArtworkGallery({ title, viewTransitionName, imageUrls, className = "" }: ArtworkGalleryProps) {
   const [selectedIndex, setSelectedIndex] = useState(0);
+  const [isFullScreen, setIsFullScreen] = useState(false);
   const selectedUrl = imageUrls[selectedIndex];
+  const fullScreenTransitionName = `${viewTransitionName}-full-screen`;
+
+  const openFullScreen = () => startTransition(() => setIsFullScreen(true));
+  const closeFullScreen = () => startTransition(() => setIsFullScreen(false));
+
+  // Full screen has its own arrow keys.
+  useArrowKeyNavigation(
+    (offset) => setSelectedIndex((index) => (index + offset + imageUrls.length) % imageUrls.length),
+    !isFullScreen && imageUrls.length > 1,
+  );
 
   return (
     <section aria-label="Images of this work" className={`artwork-gallery flex flex-col gap-4 ${className}`}>
       <ViewTransition name={viewTransitionName} share="artwork-image">
-        <figure className="artwork-gallery__main relative aspect-[4/5] overflow-hidden rounded-artwork bg-surface-tertiary">
+        <figure
+          className={`artwork-gallery__main relative overflow-hidden rounded-artwork bg-surface-tertiary ${selectedUrl ? "w-fit max-w-full self-center" : "aspect-[4/5]"}`}
+        >
           {selectedUrl ? (
             <>
-              <Lens zoomFactor={2} lensSize={180} className="artwork-gallery__lens size-full rounded-none">
-                <img src={toWebLarge(selectedUrl)} alt={title} className="size-full object-contain" />
-              </Lens>
-              <a
-                href={selectedUrl}
-                target="_blank"
-                rel="noreferrer"
-                aria-label="Open the full-size image"
-                className="artwork-gallery__full-size absolute right-4 top-4 z-30 flex size-11 items-center justify-center rounded-full bg-black/50 text-white backdrop-blur-md"
+              {isFullScreen ? (
+                // Keeps the figure's height while the image is shown full screen.
+                <img src={toWebLarge(selectedUrl)} alt="" className={`invisible ${MAIN_IMAGE_CLASS}`} />
+              ) : (
+                <ViewTransition name={fullScreenTransitionName} default="none" share="artwork-lightbox-image">
+                  <Lens zoomFactor={2} lensSize={180} className="artwork-gallery__lens rounded-none">
+                    <img src={toWebLarge(selectedUrl)} alt={title} className={MAIN_IMAGE_CLASS} />
+                  </Lens>
+                </ViewTransition>
+              )}
+              <Button
+                isIconOnly
+                variant="ghost"
+                onPress={openFullScreen}
+                aria-label="View full screen"
+                className="artwork-gallery__full-size absolute right-4 top-4 z-30 size-11 rounded-full text-white backdrop-blur-md [--button-bg-hover:rgb(0_0_0/0.65)] [--button-bg-pressed:rgb(0_0_0/0.65)] [--button-bg:rgb(0_0_0/0.5)]"
               >
                 <Maximize2 aria-hidden className="size-5" strokeWidth={1.8} />
-              </a>
+              </Button>
               {imageUrls.length > 1 && (
                 <span className="artwork-gallery__counter absolute bottom-4 right-4 z-30 rounded-full bg-black/50 px-3 py-1 text-[13px] text-white backdrop-blur-md">
                   {selectedIndex + 1} / {imageUrls.length}
@@ -48,23 +72,24 @@ export function ArtworkGallery({ title, viewTransitionName, imageUrls, className
         </figure>
       </ViewTransition>
 
+      {isFullScreen && (
+        <ArtworkLightbox
+          title={title}
+          imageUrls={imageUrls}
+          selectedIndex={selectedIndex}
+          onSelect={setSelectedIndex}
+          viewTransitionName={fullScreenTransitionName}
+          onClose={closeFullScreen}
+        />
+      )}
+
       {imageUrls.length > 1 && (
-        <div className="artwork-gallery__thumbnails flex gap-2.5 overflow-x-auto pb-1">
-          {imageUrls.map((imageUrl, index) => (
-            <button
-              key={imageUrl}
-              type="button"
-              aria-label={`Show image ${index + 1}`}
-              aria-pressed={index === selectedIndex}
-              onClick={() => setSelectedIndex(index)}
-              className={`h-[84px] w-16 shrink-0 overflow-hidden rounded-[14px] border-2 bg-surface-tertiary md:h-[92px] md:w-[72px] ${
-                index === selectedIndex ? "border-accent" : "border-transparent"
-              }`}
-            >
-              <img src={toWebLarge(imageUrl)} alt="" loading="lazy" className="size-full object-cover" />
-            </button>
-          ))}
-        </div>
+        <ArtworkPrintPile
+          imageUrls={imageUrls}
+          selectedIndex={selectedIndex}
+          onSelect={setSelectedIndex}
+          className="artwork-gallery__thumbnails"
+        />
       )}
     </section>
   );

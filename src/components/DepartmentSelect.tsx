@@ -1,4 +1,4 @@
-import { Label, ListBox, Select } from "@heroui/react";
+import { Label, ListBox, ScrollShadow, Select } from "@heroui/react";
 import type { Department } from "../models/Department";
 
 const ALL_DEPARTMENTS = "all";
@@ -24,18 +24,20 @@ export function DepartmentSelect({ departments, value, onChange, className = "" 
         <Select.Indicator />
       </Select.Trigger>
       <Select.Popover>
-        <ListBox>
-          <ListBox.Item id={ALL_DEPARTMENTS} textValue="All departments">
-            All departments
-            <ListBox.ItemIndicator />
-          </ListBox.Item>
-          {departments.map((department) => (
-            <ListBox.Item key={department.departmentId} id={department.departmentId} textValue={department.displayName}>
-              {department.displayName}
+        <ScrollShadow className="max-h-[inherit]">
+          <ListBox>
+            <ListBox.Item id={ALL_DEPARTMENTS} textValue="All departments">
+              All departments
               <ListBox.ItemIndicator />
             </ListBox.Item>
-          ))}
-        </ListBox>
+            {departments.map((department) => (
+              <ListBox.Item key={department.departmentId} id={department.departmentId} textValue={department.displayName}>
+                {department.displayName}
+                <ListBox.ItemIndicator />
+              </ListBox.Item>
+            ))}
+          </ListBox>
+        </ScrollShadow>
       </Select.Popover>
     </Select>
   );

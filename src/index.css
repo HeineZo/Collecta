@@ -4,6 +4,17 @@
 @theme {
   --font-sans: "Hanken Grotesk", ui-sans-serif, system-ui, sans-serif;
   --radius-artwork: 24px;
+  --animate-echo: echo 2.4s cubic-bezier(0, 0, 0.2, 1) infinite;
+  @keyframes echo {
+    from {
+      transform: scale(1);
+      opacity: 0.6;
+    }
+    to {
+      transform: scale(4);
+      opacity: 0;
+    }
+  }
 }
 
 /*
@@ -103,10 +114,21 @@
   animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-::view-transition-group(.artwork-image) {
+::view-transition-group(.artwork-image),
+::view-transition-group(.artwork-lightbox-image) {
   z-index: 1;
   border-radius: var(--radius-artwork);
   overflow: clip;
+}
+.artwork-lightbox__backdrop {
+  view-transition-name: artwork-lightbox-backdrop;
+}
+
+::view-transition-group(artwork-lightbox-backdrop) {
+  z-index: 2;
+}
+::view-transition-group(.artwork-lightbox-image) {
+  z-index: 3;
 }
 
 .oldest-artwork-card__overlay {

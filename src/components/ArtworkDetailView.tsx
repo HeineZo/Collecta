@@ -36,7 +36,7 @@ export function ArtworkDetailView({
               artwork.primaryImage,
               ...artwork.additionalImages,
             ].filter(Boolean)}
-            className={GALLERY_COLUMN_CLASS}
+            className={`${GALLERY_COLUMN_CLASS} xl:sticky xl:top-28`}
           />
           <article className={INFO_COLUMN_CLASS}>
             <ArtworkHeader artwork={artwork} />
@@ -58,7 +58,7 @@ function ArtworkDetailFixture() {
     <div className={LAYOUT_CLASS}>
       <div className={`flex flex-col gap-4 ${GALLERY_COLUMN_CLASS}`}>
         <div className="aspect-[4/5] rounded-artwork" />
-        <div className="flex gap-2.5">
+        <div className="flex h-[140px] items-center justify-center gap-2.5">
           {Array.from({ length: 5 }, (_, index) => (
             <div
               key={index}
