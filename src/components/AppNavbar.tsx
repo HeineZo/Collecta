@@ -15,7 +15,7 @@ import {
 
 const MOBILE_MENU_ID = "app-navbar-mobile-menu";
 
-export function AppNavbar() {
+export function AppNavbar({ isDark }: { isDark: boolean }) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { pathname } = useLocation();
   const isInsights = pathname.startsWith("/insights");
@@ -26,7 +26,7 @@ export function AppNavbar() {
   const closeMenu = () => setIsMenuOpen(false);
 
   return (
-    <Navbar className="app-navbar">
+    <Navbar className="app-navbar" isDark={isDark}>
       <NavBody className="h-20 max-w-[1200px] px-6 md:px-10">
         <AppNavbarBrand />
         <NavItems items={links} />
