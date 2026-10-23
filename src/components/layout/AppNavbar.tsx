@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link, useLocation } from "react-router";
 import { cn } from "../../lib/cn";
 import { AvatarLink } from "../common/AvatarLink";
@@ -24,6 +24,18 @@ export function AppNavbar({ isDark }: { isDark: boolean }) {
     { name: "Insights", link: "/insights", isActive: isInsights },
   ];
   const closeMenu = () => setIsMenuOpen(false);
+  const toggleRef = useRef<HTMLButtonElement>(null);
+
+  useEffect(() => {
+    if (!isMenuOpen) return;
+    const closeOnEscape = (event: KeyboardEvent) => {
+      if (event.key !== "Escape") return;
+      setIsMenuOpen(false);
+      toggleRef.current?.focus();
+    };
+    window.addEventListener("keydown", closeOnEscape);
+    return () => window.removeEventListener("keydown", closeOnEscape);
+  }, [isMenuOpen]);
 
   return (
     <Navbar className="app-navbar" isDark={isDark}>
@@ -36,7 +48,7 @@ export function AppNavbar({ isDark }: { isDark: boolean }) {
       <MobileNav className="app-navbar__mobile">
         <MobileNavHeader className="h-12 px-6">
           <AppNavbarBrand />
-          <MobileNavToggle isOpen={isMenuOpen} onClick={() => setIsMenuOpen(!isMenuOpen)} controls={MOBILE_MENU_ID} />
+          <MobileNavToggle ref={toggleRef} isOpen={isMenuOpen} onClick={() => setIsMenuOpen(!isMenuOpen)} controls={MOBILE_MENU_ID} />
         </MobileNavHeader>
         <MobileNavMenu id={MOBILE_MENU_ID} isOpen={isMenuOpen}>
           {links.map((link) => (

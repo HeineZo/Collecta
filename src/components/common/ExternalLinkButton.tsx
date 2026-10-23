@@ -22,6 +22,7 @@ export function ExternalLinkButton({
       className={`external-link-button ${buttonVariants({ size: "lg" })} ${className}`}
     >
       {children}
+      <span className="sr-only"> (opens in a new tab)</span>
       <ExternalLink aria-hidden className="size-4.5" />
     </a>
   );

@@ -24,7 +24,8 @@ export function ArtworkCard({ artworkId }: { artworkId: number }) {
           <ViewTransition name={`artwork-image-${artworkId}`} share="artwork-image" default="none">
             <ParallaxImage
               src={artwork.primaryImageSmall}
-              alt={artwork.title}
+              // The caption below already gives the link its name.
+              alt=""
               className="artwork-card__frame rounded-artwork bg-surface-tertiary"
               imageClassName="artwork-card__image min-h-40"
             />

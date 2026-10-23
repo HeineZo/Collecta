@@ -1,10 +1,11 @@
-import { AnimatePresence, motion, useMotionValue, useSpring, useTransform, useVelocity } from "motion/react";
+import { AnimatePresence, motion, useMotionValue, useReducedMotion, useSpring, useTransform, useVelocity } from "motion/react";
 import { useEffect } from "react";
 
 const FOLLOW_SPRING = { stiffness: 260, damping: 28, mass: 0.6 };
 
 // Image floating next to the mouse cursor; decorative, so hidden on touch screens.
 export function CursorImagePreview({ src }: { src: string | undefined }) {
+  const reduceMotion = useReducedMotion();
   const x = useMotionValue(0);
   const y = useMotionValue(0);
   const springX = useSpring(x, FOLLOW_SPRING);
@@ -28,6 +29,7 @@ export function CursorImagePreview({ src }: { src: string | undefined }) {
     return () => window.removeEventListener("pointermove", follow);
   }, [x, y, springX, springY]);
 
+  if (reduceMotion) return null;
   return (
     <motion.div
       aria-hidden

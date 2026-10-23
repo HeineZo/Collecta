@@ -28,7 +28,7 @@ export function MonoConcentricRadialRings({ title, summary, rings, className }: 
 
   return (
     <MonoChartCard title={title} summary={summary} className={className} stageClassName="flex items-center gap-4">
-      <div className="size-36 shrink-0">
+      <div className="size-36 shrink-0" aria-hidden>
         <ResponsiveContainer width="100%" height="100%">
           <RadialBarChart
             data={innerToOuter}

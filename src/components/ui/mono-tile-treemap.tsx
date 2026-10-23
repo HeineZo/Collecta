@@ -22,16 +22,18 @@ interface MonoTileTreemapProps {
 
 const TILE_GAP = 3;
 const MIN_TONE = 0.18;
+const TONE_GAP_START = 0.38;
+const TONE_GAP = 0.22;
 
 export function MonoTileTreemap({ title, summary, tiles, formatValue, onTileClick, className }: MonoTileTreemapProps) {
   const reduceMotion = useReducedMotion();
   const total = tiles.reduce((sum, tile) => sum + tile.value, 0);
   // Darker ink for the larger tiles, by rank.
   const sorted = [...tiles].sort((a, b) => b.value - a.value);
-  const data = sorted.map((tile, index) => ({
-    ...tile,
-    tone: 1 - (index / Math.max(sorted.length - 1, 1)) * (1 - MIN_TONE),
-  }));
+  const data = sorted.map((tile, index) => {
+    const tone = 1 - TONE_GAP - (index / Math.max(sorted.length - 1, 1)) * (1 - TONE_GAP - MIN_TONE);
+    return { ...tile, tone: tone > TONE_GAP_START ? tone + TONE_GAP : tone };
+  });
 
   return (
     <MonoChartCard title={title} summary={summary} className={className}>
@@ -107,7 +109,7 @@ function Tile({ id, x, y, width, height, name, value, tone, depth, total, format
           fontWeight={600}
         >
           {name.length * 6 > width - 16 ? `${name.slice(0, Math.max(Math.floor((width - 16) / 6) - 1, 1))}…` : name}
-          <tspan x={x + 10} dy={15} fontSize={10} fontWeight={400} opacity={0.8}>
+          <tspan x={x + 10} dy={15} fontSize={10} fontWeight={400}>
             {formatValue(value)} · {Math.round((value / total) * 100)}%
           </tspan>
         </text>

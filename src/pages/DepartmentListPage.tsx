@@ -18,7 +18,7 @@ export function DepartmentListPage() {
   const searchRef = useScrollIntoViewOnChange<HTMLDivElement>(searchQuery);
 
   return (
-    <AppLayout>
+    <AppLayout title="Departments">
       <DepartmentListHero
         departments={departments}
         departmentNames={departmentNames}

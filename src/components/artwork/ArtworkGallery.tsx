@@ -62,9 +62,14 @@ export function ArtworkGallery({ title, viewTransitionName, imageUrls, className
                 <Maximize2 aria-hidden className="size-5" strokeWidth={1.8} />
               </Button>
               {imageUrls.length > 1 && (
-                <span className="artwork-gallery__counter absolute bottom-4 right-4 z-30 rounded-full bg-black/50 px-3 py-1 text-[13px] text-white backdrop-blur-md">
-                  {selectedIndex + 1} / {imageUrls.length}
-                </span>
+                <>
+                  <span aria-hidden className="artwork-gallery__counter absolute bottom-4 right-4 z-30 rounded-full bg-black/50 px-3 py-1 text-[13px] text-white backdrop-blur-md">
+                    {selectedIndex + 1} / {imageUrls.length}
+                  </span>
+                  <span aria-live="polite" className="sr-only">
+                    Image {selectedIndex + 1} of {imageUrls.length}
+                  </span>
+                </>
               )}
             </>
           ) : (

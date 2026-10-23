@@ -1,5 +1,5 @@
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
-import { type ReactNode, useEffect, useRef } from "react";
+import { type ReactNode, useEffect, useRef, useState } from "react";
 import { useIsFooterInView } from "../../hooks/useIsFooterInView";
 
 export const CONTROL_SELECTOR = "input, button";
@@ -19,7 +19,9 @@ export function ArtworkControlsDock({
   const ref = useRef<HTMLDivElement>(null);
   const reduceMotion = useReducedMotion();
   const isFooterInView = useIsFooterInView();
-  const isShown = isVisible && !isFooterInView;
+  const [hasFocus, setHasFocus] = useState(false);
+  const isShown = isVisible && (!isFooterInView || hasFocus);
+  
   useEffect(() => {
     if (isShown && focusIndex >= 0) ref.current?.querySelectorAll<HTMLElement>(CONTROL_SELECTOR)[focusIndex]?.focus();
   }, [isShown, focusIndex]);
@@ -42,6 +44,8 @@ export function ArtworkControlsDock({
           ref={ref}
           role="search"
           aria-label="Search and filter artworks"
+          onFocus={() => setHasFocus(true)}
+          onBlur={(event) => !event.currentTarget.contains(event.relatedTarget) && setHasFocus(false)}
           initial={{ opacity: 0, y: reduceMotion ? 0 : 32 }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: reduceMotion ? 0 : 32 }}

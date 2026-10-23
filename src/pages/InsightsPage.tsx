@@ -23,7 +23,7 @@ export function InsightsPage() {
   };
 
   return (
-    <AppLayout>
+    <AppLayout title="Insights">
       <section className="insights__hero flex flex-wrap items-end justify-between gap-x-8 gap-y-2">
         <PageHeader title="Insights" description="How the Met collection is spread across time and departments." />
         {departments.departments && (

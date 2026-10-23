@@ -7,12 +7,14 @@ interface BreadcrumbLink {
 
 export function PageBreadcrumbs({ links }: { links: BreadcrumbLink[] }) {
   return (
-    <Breadcrumbs className="page-breadcrumbs flex-wrap">
-      {links.map((link, index) => (
-        <Breadcrumbs.Item key={index} href={link.href} className="shrink">
-          {link.label}
-        </Breadcrumbs.Item>
-      ))}
-    </Breadcrumbs>
+    <nav aria-label="Breadcrumbs">
+      <Breadcrumbs className="page-breadcrumbs flex-wrap">
+        {links.map((link, index) => (
+          <Breadcrumbs.Item key={index} href={link.href} className="shrink">
+            {link.label}
+          </Breadcrumbs.Item>
+        ))}
+      </Breadcrumbs>
+    </nav>
   );
 }

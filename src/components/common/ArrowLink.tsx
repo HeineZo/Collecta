@@ -17,6 +17,7 @@ export function ArrowLink({ href, children, className }: ArrowLinkProps) {
       className={cn("arrow-link group inline-flex items-center gap-1 transition-colors hover:text-foreground", className)}
     >
       {children}
+      <span className="sr-only"> (opens in a new tab)</span>
       <ArrowUpRight
         aria-hidden
         className="size-4 transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 motion-reduce:transition-none"

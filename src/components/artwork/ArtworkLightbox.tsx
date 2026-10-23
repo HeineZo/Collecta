@@ -92,6 +92,12 @@ export function ArtworkLightbox({
         </div>
 
         {hasSeveralImages && (
+          <p aria-live="polite" className="sr-only">
+            Image {selectedIndex + 1} of {imageUrls.length}
+          </p>
+        )}
+
+        {hasSeveralImages && (
           <ArtworkPrintPile
             imageUrls={imageUrls}
             selectedIndex={selectedIndex}

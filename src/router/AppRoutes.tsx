@@ -13,7 +13,9 @@ export function AppRoutes() {
   const navigationType = useNavigationType();
   useLayoutEffect(() => {
     // Filters kept in the URL replace the entry: the page must stay where it is.
-    if (navigationType !== NavigationType.Replace) restoreScroll(location.key);
+    if (navigationType === NavigationType.Replace) return;
+    restoreScroll(location.key);
+    if (location.key !== "default") document.querySelector("main")?.focus({ preventScroll: true });
   }, [location.key, navigationType]);
   return (
     <RouterProvider navigate={navigate} useHref={useHref}>

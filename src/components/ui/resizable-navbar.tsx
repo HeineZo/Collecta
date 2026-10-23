@@ -128,7 +128,8 @@ export const NavItems = ({ items, className, onItemClick }: NavItemsProps) => {
   const [hovered, setHovered] = useState<number | null>(null);
 
   return (
-    <motion.div
+    <motion.nav
+      aria-label="Main"
       onMouseLeave={() => setHovered(null)}
       className={cn(
         "absolute inset-0 hidden flex-1 flex-row items-center justify-center space-x-2 text-sm font-medium lg:flex lg:space-x-2",
@@ -156,7 +157,7 @@ export const NavItems = ({ items, className, onItemClick }: NavItemsProps) => {
           <span className="relative z-20">{item.name}</span>
         </Link>
       ))}
-    </motion.div>
+    </motion.nav>
   );
 };
 
@@ -210,8 +211,9 @@ export const MobileNavMenu = ({
   return (
     <AnimatePresence>
       {isOpen && (
-        <motion.div
+        <motion.nav
           id={id}
+          aria-label="Main"
           initial={{ opacity: 0, y: -8 }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -8 }}
@@ -222,7 +224,7 @@ export const MobileNavMenu = ({
           )}
         >
           {children}
-        </motion.div>
+        </motion.nav>
       )}
     </AnimatePresence>
   );
@@ -232,13 +234,16 @@ export const MobileNavToggle = ({
   isOpen,
   onClick,
   controls,
+  ref,
 }: {
   isOpen: boolean;
   onClick: () => void;
   controls?: string;
+  ref?: React.Ref<HTMLButtonElement>;
 }) => {
   return (
     <button
+      ref={ref}
       type="button"
       onClick={onClick}
       aria-expanded={isOpen}

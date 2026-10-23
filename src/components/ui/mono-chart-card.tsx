@@ -14,7 +14,7 @@ interface MonoChartCardProps {
 }
 
 // Charts draw with `currentColor`: the stage's text colour is the ink, opacity gives the tones.
-export const MONO_TICK = { fontSize: 10, fill: "currentColor", fillOpacity: 0.55 };
+export const MONO_TICK = { fontSize: 10, fill: "currentColor", fillOpacity: 0.65 };
 
 export function MonoChartCard({ title, summary, children, className, stageClassName }: MonoChartCardProps) {
   const reduceMotion = useReducedMotion();

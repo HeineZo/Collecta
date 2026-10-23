@@ -11,7 +11,7 @@ export function ArtworkDetailPage() {
   const artwork = artworkQuery.data;
 
   return (
-    <AppLayout>
+    <AppLayout title={artwork?.title}>
       <PageBreadcrumbs
         links={[
           { label: "Departments", href: "/" },

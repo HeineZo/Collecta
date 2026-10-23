@@ -26,9 +26,16 @@ export function MonoCurvedWaveArea({ title, summary, data, valueName, formatValu
 
   return (
     <MonoChartCard title={title} summary={summary} className={className}>
-      <div className="h-64">
+      <ul className="sr-only">
+        {data.map((point) => (
+          <li key={point.label}>
+            {point.label}: {formatValue(point.value)} {valueName.toLowerCase()}
+          </li>
+        ))}
+      </ul>
+      <div className="h-64" aria-hidden>
         <ResponsiveContainer width="100%" height="100%">
-          <AreaChart data={data} margin={{ top: 10, right: 12, left: 0, bottom: 0 }}>
+          <AreaChart data={data} margin={{ top: 10, right: 12, left: 0, bottom: 0 }} accessibilityLayer={false}>
             <defs>
               <linearGradient id={gradientId} x1="0" y1="0" x2="0" y2="1">
                 <stop offset="0%" stopColor="currentColor" stopOpacity={0.28} />

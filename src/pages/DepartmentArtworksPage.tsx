@@ -27,7 +27,7 @@ export function DepartmentArtworksPage() {
   };
 
   return (
-    <AppLayout isDark>
+    <AppLayout title={department.name} isDark>
       <DepartmentArtworksHero
         departmentId={departmentId}
         title={department.name}

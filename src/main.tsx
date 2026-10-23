@@ -1,3 +1,4 @@
+import { I18nProvider } from "@heroui/react";
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import { unstable_HistoryRouter as HistoryRouter } from "react-router";
@@ -21,10 +22,12 @@ const swrConfig = {
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
-    <SWRConfig value={swrConfig}>
-      <HistoryRouter history={browserHistory}>
-        <AppRoutes />
-      </HistoryRouter>
-    </SWRConfig>
+    <I18nProvider locale="en-US">
+      <SWRConfig value={swrConfig}>
+        <HistoryRouter history={browserHistory}>
+          <AppRoutes />
+        </HistoryRouter>
+      </SWRConfig>
+    </I18nProvider>
   </StrictMode>,
 );

@@ -70,10 +70,10 @@ export function DepartmentArtworksHero({ departmentId, title, description, searc
             className="absolute inset-0 size-full object-cover"
           />
         )}
-        <div aria-hidden className="absolute inset-0 bg-black/50 [background-image:radial-gradient(ellipse_at_center,transparent_20%,rgb(0_0_0/0.45))]" />
+        <div aria-hidden className="absolute inset-0 bg-black/60 [background-image:radial-gradient(ellipse_at_center,transparent_20%,rgb(0_0_0/0.45))]" />
         {highlight && (
           <motion.p
-            className="department-artworks-hero__credit absolute inset-x-6 bottom-6 truncate text-left text-sm text-white/70 md:inset-x-10"
+            className="department-artworks-hero__credit absolute inset-x-6 bottom-6 truncate text-left text-sm text-white/85 md:inset-x-10"
             style={{ opacity: creditOpacity }}
           >
             Highlight ·{" "}
@@ -89,11 +89,11 @@ export function DepartmentArtworksHero({ departmentId, title, description, searc
         style={{ y: contentY, opacity: contentOpacity }}
         inert={isDocked}
       >
-        <Link to="/" className="text-xs uppercase tracking-[0.24em] text-white/70 transition-colors hover:text-white md:text-sm">
+        <Link to="/" className="text-xs uppercase tracking-[0.24em] text-white/85 transition-colors hover:text-white md:text-sm">
           Departments
         </Link>
         <h1 className="min-h-[1lh] text-[42px] leading-[1.02] tracking-[-0.035em] md:text-[72px]">{title}</h1>
-        <p className="min-h-[1lh] text-[15px] text-white/75 md:text-[17px]">{description}</p>
+        <p className="min-h-[1lh] text-[15px] text-white/85 md:text-[17px]">{description}</p>
         <div ref={controlsRef} className="mt-4 flex w-full max-w-md items-center gap-2">
           {controls}
         </div>

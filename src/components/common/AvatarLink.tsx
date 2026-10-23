@@ -25,6 +25,7 @@ export function AvatarLink({ href, avatarSrc, children, className }: AvatarLinkP
         <img src={avatarSrc} alt="" className="absolute bottom-0 left-1/2 w-8 max-w-none -translate-x-1/2" />
       </span>
       {children}
+      <span className="sr-only"> (opens in a new tab)</span>
     </a>
   );
 }

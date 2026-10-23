@@ -1,29 +1,37 @@
-import { type ReactNode, useSyncExternalStore } from "react";
+import { Children, type ReactNode, useLayoutEffect, useRef, useState } from "react";
+
+const ROW_HEIGHT_PX = 4;
 
 export function MasonryGrid({ items }: { items: ReactNode[] }) {
-  const columnCount = useColumnCount();
-  const columns = Array.from({ length: columnCount }, (_, column) =>
-    items.filter((_, index) => index % columnCount === column),
-  );
   return (
-    <div className="masonry-grid flex items-start gap-3 md:gap-5">
-      {columns.map((column, index) => (
-        <div key={index} className="masonry-grid__column flex min-w-0 flex-1 flex-col">
-          {column}
-        </div>
+    <div
+      className="masonry-grid grid grid-cols-2 items-start gap-x-3 md:grid-cols-3 md:gap-x-5 lg:grid-cols-4"
+      style={{ gridAutoRows: ROW_HEIGHT_PX }}
+    >
+      {Children.map(items, (item) => (
+        <MasonryCell>{item}</MasonryCell>
       ))}
     </div>
   );
 }
 
-// Same breakpoints as Tailwind's md (48rem) and lg (64rem).
-function useColumnCount() {
-  return useSyncExternalStore(subscribeToResize, () =>
-    window.matchMedia("(min-width: 64rem)").matches ? 4 : window.matchMedia("(min-width: 48rem)").matches ? 3 : 2,
-  );
-}
+function MasonryCell({ children }: { children: ReactNode }) {
+  const ref = useRef<HTMLDivElement>(null);
+  const [rowSpan, setRowSpan] = useState(1);
 
-function subscribeToResize(onResize: () => void) {
-  window.addEventListener("resize", onResize);
-  return () => window.removeEventListener("resize", onResize);
+  useLayoutEffect(() => {
+    const cell = ref.current!;
+    const measure = () => setRowSpan(Math.ceil(cell.getBoundingClientRect().height / ROW_HEIGHT_PX));
+    measure();
+    // Images load after the first render and change the height.
+    const observer = new ResizeObserver(measure);
+    observer.observe(cell);
+    return () => observer.disconnect();
+  }, []);
+
+  return (
+    <div ref={ref} className="masonry-grid__cell flow-root min-w-0" style={{ gridRowEnd: `span ${rowSpan}` }}>
+      {children}
+    </div>
+  );
 }
