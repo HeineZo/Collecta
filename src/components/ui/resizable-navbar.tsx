@@ -167,9 +167,6 @@ export const MobileNav = ({ children, className, visible }: MobileNavProps) => {
         backdropFilter: visible ? "blur(10px)" : "none",
         boxShadow: visible ? FLOATING_SHADOW : "none",
         width: visible ? "90%" : "100%",
-        paddingRight: visible ? "12px" : "0px",
-        paddingLeft: visible ? "12px" : "0px",
-        borderRadius: visible ? "4px" : "2rem",
         y: visible ? 20 : 0,
       }}
       transition={{
@@ -178,7 +175,7 @@ export const MobileNav = ({ children, className, visible }: MobileNavProps) => {
         damping: 50,
       }}
       className={cn(
-        "relative z-50 mx-auto flex w-full max-w-[calc(100vw-2rem)] flex-col items-center justify-between bg-transparent px-0 py-2 lg:hidden",
+        "relative z-50 mx-auto flex w-full max-w-[calc(100vw-2rem)] flex-col items-center justify-between rounded-[2rem] bg-transparent px-0 py-2 lg:hidden",
         visible && "bg-background/80",
         className,
       )}
@@ -215,12 +212,12 @@ export const MobileNavMenu = ({
       {isOpen && (
         <motion.div
           id={id}
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
+          initial={{ opacity: 0, y: -8 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: -8 }}
           style={{ boxShadow: FLOATING_SHADOW }}
           className={cn(
-            "absolute inset-x-0 top-16 z-50 flex w-full flex-col items-start justify-start gap-4 rounded-lg border border-border bg-overlay px-4 py-8",
+            "absolute inset-x-0 top-full z-50 mt-2 flex w-full flex-col items-stretch justify-start gap-1 rounded-[2rem] border border-border bg-overlay p-3",
             className,
           )}
         >

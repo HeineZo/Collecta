@@ -45,12 +45,14 @@ export function AppNavbar({ isDark }: { isDark: boolean }) {
               to={link.link}
               onClick={closeMenu}
               aria-current={link.isActive ? "page" : undefined}
-              className={cn("text-lg text-muted", link.isActive && "text-foreground")}
+              className={cn("rounded-full px-4 py-3 text-lg text-muted", link.isActive && "bg-default text-foreground")}
             >
               {link.name}
             </Link>
           ))}
-          <PortfolioLink />
+          <div className="mt-2 border-t border-border pt-3">
+            <PortfolioLink />
+          </div>
         </MobileNavMenu>
       </MobileNav>
     </Navbar>
