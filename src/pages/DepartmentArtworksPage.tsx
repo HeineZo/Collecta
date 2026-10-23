@@ -12,6 +12,7 @@ import { useDepartmentArtworks } from "../hooks/useDepartmentArtworks";
 import { useDepartmentSummary } from "../hooks/useDepartmentSummary";
 import { useScrollIntoViewOnChange } from "../hooks/useScrollIntoViewOnChange";
 import { formatNumber } from "../lib/formatNumber";
+import { pluralize } from "../lib/pluralize";
 
 export function DepartmentArtworksPage() {
   const departmentId = Number(useParams().departmentId);
@@ -32,7 +33,7 @@ export function DepartmentArtworksPage() {
         title={department.name}
         description={
           department.name && department.totalWorks !== undefined && department.onViewCount !== undefined
-            ? `${formatNumber(department.totalWorks)} works · ${formatNumber(department.onViewCount)} on view`
+            ? `${formatNumber(department.totalWorks)} ${pluralize(department.totalWorks, "work")} · ${formatNumber(department.onViewCount)} on view`
             : undefined
         }
         search={
@@ -55,7 +56,7 @@ export function DepartmentArtworksPage() {
           <p className="department-artworks__not-found text-muted">This department does not exist.</p>
         ) : (
           <>
-            <ResultCount count={artworks.artworkIds && artworks.resultCount} noun="works" className="mb-6 md:mb-8" />
+            <ResultCount count={artworks.artworkIds && artworks.resultCount} noun="work" className="mb-6 md:mb-8" />
             {department.hasError || artworks.hasError ? (
               <ErrorState message="The Met collection could not be reached." onRetry={retry} />
             ) : (

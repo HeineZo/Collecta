@@ -10,6 +10,7 @@
     "preview": "vite preview",
     "bones": "boneyard-js build http://localhost:5173",
     "test": "vitest run",
+    "pretest:e2e": "playwright install chromium",
     "test:e2e": "playwright test"
   },
   "dependencies": {

@@ -37,6 +37,7 @@ test("draws the insights charts and opens a department from the treemap", async 
   await page.goto("/insights");
 
   await expect(page.getByText("Works through the ages")).toBeVisible();
+  await expect(page.getByText("5 dated works")).toBeVisible();
   await expect(page.getByText("Weight of each department")).toBeVisible();
   await page.getByRole("link", { name: "European Paintings, 3" }).click();
 

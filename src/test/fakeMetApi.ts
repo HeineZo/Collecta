@@ -37,8 +37,8 @@ const withImage = (objectID: number) => ({
 
 const ARTWORKS_BY_DEPARTMENT: Record<number, Artwork[]> = {
   10: [
-    artwork({ objectID: 201, title: "Seated Statue of Hatshepsut", department: "Egyptian Art", isHighlight: true, GalleryNumber: "115", ...withImage(201) }),
-    artwork({ objectID: 202, title: "Scarab", department: "Egyptian Art", ...withImage(202) }),
+    artwork({ objectID: 201, title: "Seated Statue of Hatshepsut", department: "Egyptian Art", isHighlight: true, GalleryNumber: "115", culture: "Egyptian", objectEndDate: -1458, ...withImage(201) }),
+    artwork({ objectID: 202, title: "Scarab", department: "Egyptian Art", objectEndDate: -1295, ...withImage(202) }),
   ],
   11: [
     artwork({
@@ -51,12 +51,13 @@ const ARTWORKS_BY_DEPARTMENT: Record<number, Artwork[]> = {
       medium: "Oil on canvas",
       classification: "Paintings",
       accessionNumber: "1993.132",
+      objectEndDate: 1889,
       ...withImage(101),
     }),
-    artwork({ objectID: 102, title: "The Harvesters", department: "European Paintings", isHighlight: true, ...withImage(102) }),
+    artwork({ objectID: 102, title: "The Harvesters", department: "European Paintings", isHighlight: true, objectEndDate: 1565, ...withImage(102) }),
     artwork({ objectID: 103, title: "Study of a Tree", department: "European Paintings" }),
   ],
-  13: [artwork({ objectID: 301, title: "Marble Head", department: "Greek and Roman Art" })],
+  13: [artwork({ objectID: 301, title: "Marble Head", department: "Greek and Roman Art", objectEndDate: 150 })],
 };
 
 const ARTWORKS = Object.values(ARTWORKS_BY_DEPARTMENT).flat();
@@ -79,11 +80,15 @@ export async function fakeMetFetch(input: RequestInfo | URL): Promise<Response> 
     const params = url.searchParams;
     const departmentId = params.get("departmentId");
     const query = params.get("q") ?? "*";
+    const dateBegin = params.get("dateBegin");
+    const dateEnd = params.get("dateEnd");
     const matches = (departmentId ? (ARTWORKS_BY_DEPARTMENT[Number(departmentId)] ?? []) : ARTWORKS).filter(
       (candidate) =>
         (params.get("isHighlight") !== "true" || candidate.isHighlight) &&
         (params.get("isOnView") !== "true" || candidate.GalleryNumber) &&
         (params.get("hasImages") !== "true" || candidate.primaryImage) &&
+        (dateBegin === null || Number(dateBegin) <= candidate.objectEndDate) &&
+        (dateEnd === null || candidate.objectEndDate <= Number(dateEnd)) &&
         (query === "*" || candidate.title.toLowerCase().includes(query.toLowerCase())),
     );
     const offset = Number(params.get("offset") ?? 0);

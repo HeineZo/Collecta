@@ -3,6 +3,7 @@ import { useRef } from "react";
 import { EARLIEST_YEAR } from "../../api/collectionSearchApi";
 import { useCollectionCounts } from "../../hooks/useCollectionCounts";
 import { formatNumber } from "../../lib/formatNumber";
+import { pluralize } from "../../lib/pluralize";
 import { ErrorState } from "../common/ErrorState";
 import { MonoCurvedWaveArea } from "../ui/mono-curved-wave-area";
 
@@ -37,6 +38,7 @@ export function CollectionPeriodsChart() {
   const { counts, hasError, retry } = useCollectionCounts(isInView ? QUERIES : null);
   const undated = counts?.at(-1) ?? 0;
   const datedUpTo = (index: number) => counts![index] - (PERIODS[index].endYear >= 0 ? undated : 0);
+  const datedTotal = counts ? datedUpTo(PERIODS.length - 1) : 0;
   const data =
     counts &&
     PERIODS.map((period, index) => ({
@@ -52,7 +54,7 @@ export function CollectionPeriodsChart() {
         data && (
           <MonoCurvedWaveArea
             title="Works through the ages"
-            summary={`${formatNumber(datedUpTo(PERIODS.length - 1))} dated works`}
+            summary={`${formatNumber(datedTotal)} dated ${pluralize(datedTotal, "work")}`}
             data={data}
             valueName="Works"
             formatValue={formatCompact}

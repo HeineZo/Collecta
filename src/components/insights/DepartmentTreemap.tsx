@@ -1,5 +1,6 @@
 import { useNavigate } from "react-router";
 import { formatNumber } from "../../lib/formatNumber";
+import { pluralize } from "../../lib/pluralize";
 import type { DepartmentWithTotal } from "../../models/DepartmentWithTotal";
 import { MonoTileTreemap } from "../ui/mono-tile-treemap";
 
@@ -9,7 +10,7 @@ export function DepartmentTreemap({ departments }: { departments: DepartmentWith
     <MonoTileTreemap
       className="department-treemap"
       title="Weight of each department"
-      summary={`${departments.length} departments`}
+      summary={`${departments.length} ${pluralize(departments.length, "department")}`}
       tiles={departments.map((department) => ({
         id: department.departmentId,
         name: department.displayName,

@@ -22,7 +22,7 @@ describe("DepartmentArtworksPage", () => {
     await within(results()).findByText("2 works");
 
     await user.type(screen.getByRole("searchbox", { name: "Search in European Paintings" }), "harvest");
-    expect(await within(results()).findByText("1 works")).toBeInTheDocument();
+    expect(await within(results()).findByText("1 work")).toBeInTheDocument();
     await waitFor(() => expect(artworkTitles()).toEqual(["The Harvesters"]));
   });
 

@@ -1,4 +1,5 @@
 import { type ReactNode, useCallback, useState } from "react";
+import { pluralize } from "../../lib/pluralize";
 import type { DepartmentWithTotal } from "../../models/DepartmentWithTotal";
 import { DepartmentCoverPreloader } from "./DepartmentCoverPreloader";
 import { HeroCollage } from "../common/HeroCollage";
@@ -39,7 +40,7 @@ export function DepartmentListHero({ departments, departmentNames, search }: Dep
         <p className="text-xs uppercase tracking-[0.24em] text-muted md:text-sm">The Metropolitan Museum of Art</p>
         <RotatingDepartmentTitle departmentNames={departmentNames} />
         <p className="max-w-md text-base text-muted md:text-lg">
-          {departmentNames ? `${departmentNames.length} departments to explore` : "Every department of the Met"}
+          {departmentNames ? `${departmentNames.length} ${pluralize(departmentNames.length, "department")} to explore` : "Every department of the Met"}
         </p>
         <div className="mt-4 w-full max-w-md">{search}</div>
       </div>

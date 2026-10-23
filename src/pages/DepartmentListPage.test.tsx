@@ -13,7 +13,7 @@ describe("DepartmentListPage", () => {
     expect(departmentRows().map((row) => row.textContent)).toEqual([
       "01European Paintings3 works",
       "02Egyptian Art2 works",
-      "03Greek and Roman Art1 works",
+      "03Greek and Roman Art1 work",
     ]);
   });
 

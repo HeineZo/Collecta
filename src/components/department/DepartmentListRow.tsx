@@ -1,6 +1,7 @@
 import { Link } from "react-router";
 import { useDepartmentCover } from "../../hooks/useDepartmentCover";
 import { formatNumber } from "../../lib/formatNumber";
+import { pluralize } from "../../lib/pluralize";
 import type { DepartmentWithTotal } from "../../models/DepartmentWithTotal";
 
 interface DepartmentListRowProps {
@@ -30,7 +31,7 @@ export function DepartmentListRow({ department, position, onHover, isPlaceholder
       </span>
       <span className="text-right text-sm tabular-nums text-muted md:text-base">
         {formatNumber(department.totalWorks)}
-        <span className="hidden md:inline"> works</span>
+        <span className="hidden md:inline"> {pluralize(department.totalWorks, "work")}</span>
       </span>
     </Link>
   );
