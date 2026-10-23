@@ -31,8 +31,7 @@ export function ArtworkLightbox({
   const dialogRef = useRef<HTMLDialogElement>(null);
   const imageUrl = imageUrls[selectedIndex];
   const previewUrl = toWebLarge(imageUrl);
-  const aspectRatios = imageUrls.map((url) => use(loadImageRatio(toWebLarge(url))));
-  const aspectRatio = aspectRatios[selectedIndex];
+  const aspectRatio = use(loadImageRatio(previewUrl));
   const hasSeveralImages = imageUrls.length > 1;
   const showOffset = (offset: number) => onSelect(stepIndex(selectedIndex, offset, imageUrls.length));
 

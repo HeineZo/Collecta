@@ -27,9 +27,10 @@ export function ArtworkGallery({ title, viewTransitionName, imageUrls, className
 
   const openFullScreen = () => startTransition(() => setIsFullScreen(true));
   const closeFullScreen = () => startTransition(() => setIsFullScreen(false));
+  const selectImage = (index: number) => startTransition(() => setSelectedIndex(index));
 
   useArrowKeyNavigation(
-    (offset) => setSelectedIndex((index) => stepIndex(index, offset, imageUrls.length)),
+    (offset) => selectImage(stepIndex(selectedIndex, offset, imageUrls.length)),
     imageUrls.length > 1,
   );
 
@@ -77,7 +78,7 @@ export function ArtworkGallery({ title, viewTransitionName, imageUrls, className
           title={title}
           imageUrls={imageUrls}
           selectedIndex={selectedIndex}
-          onSelect={setSelectedIndex}
+          onSelect={selectImage}
           viewTransitionName={fullScreenTransitionName}
           onClose={closeFullScreen}
         />
@@ -87,7 +88,7 @@ export function ArtworkGallery({ title, viewTransitionName, imageUrls, className
         <ArtworkPrintPile
           imageUrls={imageUrls}
           selectedIndex={selectedIndex}
-          onSelect={setSelectedIndex}
+          onSelect={selectImage}
           className="artwork-gallery__thumbnails"
         />
       )}
