@@ -1,13 +1,13 @@
 import { useParams } from "react-router";
-import { AppLayout } from "../components/AppLayout";
-import { ArtworkDetailView } from "../components/ArtworkDetailView";
-import { ErrorState } from "../components/ErrorState";
-import { PageBreadcrumbs } from "../components/PageBreadcrumbs";
-import { useMuseumObject } from "../hooks/useMuseumObject";
+import { AppLayout } from "../components/layout/AppLayout";
+import { ArtworkDetailView } from "../components/artwork/ArtworkDetailView";
+import { ErrorState } from "../components/common/ErrorState";
+import { PageBreadcrumbs } from "../components/layout/PageBreadcrumbs";
+import { useArtwork } from "../hooks/useArtwork";
 
 export function ArtworkDetailPage() {
-  const { departmentId, objectId } = useParams();
-  const artworkQuery = useMuseumObject(Number(objectId));
+  const { departmentId, artworkId } = useParams();
+  const artworkQuery = useArtwork(Number(artworkId));
   const artwork = artworkQuery.data;
 
   return (

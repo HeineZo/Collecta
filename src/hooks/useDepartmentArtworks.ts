@@ -1,5 +1,5 @@
 import useSWRInfinite from "swr/infinite";
-import { searchDepartmentObjects } from "../api/departmentsApi";
+import { searchDepartmentArtworks } from "../api/departmentsApi";
 import type { ArtworkFilter } from "../models/ArtworkFilter";
 
 const PAGE_SIZE = 20;
@@ -9,7 +9,7 @@ export function useDepartmentArtworks(departmentId: number, searchQuery: string,
   const artworksQuery = useSWRInfinite(
     (pageIndex) => ["department-artworks", departmentId, searchQuery, filters, pageIndex] as const,
     ([, , query, activeFilters, pageIndex]) =>
-      searchDepartmentObjects(departmentId, {
+      searchDepartmentArtworks(departmentId, {
         searchQuery: query,
         filters: activeFilters,
         offset: pageIndex * PAGE_SIZE,
@@ -18,13 +18,13 @@ export function useDepartmentArtworks(departmentId: number, searchQuery: string,
     { revalidateFirstPage: false },
   );
   const { data: pages, size: pageCount, setSize: setPageCount } = artworksQuery;
-  const objectIds = pages?.flatMap((page) => page.objectIDs ?? []);
+  const artworkIds = pages?.flatMap((page) => page.objectIDs ?? []);
   const resultCount = pages?.[0].total ?? 0;
 
   return {
-    objectIds,
+    artworkIds,
     resultCount,
-    hasMore: (objectIds?.length ?? 0) < resultCount,
+    hasMore: (artworkIds?.length ?? 0) < resultCount,
     isLoadingMore: artworksQuery.isLoading || (pages !== undefined && pages.length < pageCount),
     canAutoLoad: pageCount < AUTO_LOAD_PAGE_LIMIT,
     loadMore: () => void setPageCount(pageCount + 1),

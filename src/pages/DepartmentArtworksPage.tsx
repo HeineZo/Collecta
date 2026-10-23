@@ -1,12 +1,12 @@
 import { useParams } from "react-router";
-import { AppLayout } from "../components/AppLayout";
-import { ArtworkFilters } from "../components/ArtworkFilters";
-import { ArtworkGrid } from "../components/ArtworkGrid";
-import { DepartmentArtworksHero } from "../components/DepartmentArtworksHero";
-import { ErrorState } from "../components/ErrorState";
-import { LoadMoreButton } from "../components/LoadMoreButton";
-import { ResultCount } from "../components/ResultCount";
-import { SearchBar } from "../components/SearchBar";
+import { AppLayout } from "../components/layout/AppLayout";
+import { ArtworkFilters } from "../components/artwork/ArtworkFilters";
+import { ArtworkGrid } from "../components/artwork/ArtworkGrid";
+import { DepartmentArtworksHero } from "../components/department/DepartmentArtworksHero";
+import { ErrorState } from "../components/common/ErrorState";
+import { LoadMoreButton } from "../components/common/LoadMoreButton";
+import { ResultCount } from "../components/common/ResultCount";
+import { SearchBar } from "../components/common/SearchBar";
 import { useArtworkSearchParams } from "../hooks/useArtworkSearchParams";
 import { useDepartmentArtworks } from "../hooks/useDepartmentArtworks";
 import { useDepartmentSummary } from "../hooks/useDepartmentSummary";
@@ -55,11 +55,11 @@ export function DepartmentArtworksPage() {
           <p className="department-artworks__not-found text-muted">This department does not exist.</p>
         ) : (
           <>
-            <ResultCount count={artworks.objectIds && artworks.resultCount} noun="works" className="mb-6 md:mb-8" />
+            <ResultCount count={artworks.artworkIds && artworks.resultCount} noun="works" className="mb-6 md:mb-8" />
             {department.hasError || artworks.hasError ? (
               <ErrorState message="The Met collection could not be reached." onRetry={retry} />
             ) : (
-              <ArtworkGrid objectIds={artworks.objectIds} emptyMessage="No artwork matches these filters." />
+              <ArtworkGrid artworkIds={artworks.artworkIds} emptyMessage="No artwork matches these filters." />
             )}
             {artworks.hasMore && (
               <LoadMoreButton

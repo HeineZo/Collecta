@@ -1,9 +1,9 @@
 import { useMemo, useState } from "react";
-import { AppLayout } from "../components/AppLayout";
-import { DepartmentHero } from "../components/DepartmentHero";
-import { DepartmentIndex } from "../components/DepartmentIndex";
-import { ErrorState } from "../components/ErrorState";
-import { SearchBar } from "../components/SearchBar";
+import { AppLayout } from "../components/layout/AppLayout";
+import { DepartmentListHero } from "../components/department/DepartmentListHero";
+import { DepartmentList } from "../components/department/DepartmentList";
+import { ErrorState } from "../components/common/ErrorState";
+import { SearchBar } from "../components/common/SearchBar";
 import { useDepartmentsWithTotals } from "../hooks/useDepartmentsWithTotals";
 import { useScrollIntoViewOnChange } from "../hooks/useScrollIntoViewOnChange";
 import { filterDepartments } from "../lib/filterDepartments";
@@ -19,7 +19,7 @@ export function DepartmentListPage() {
 
   return (
     <AppLayout>
-      <DepartmentHero
+      <DepartmentListHero
         departments={departments}
         departmentNames={departmentNames}
         search={
@@ -33,7 +33,7 @@ export function DepartmentListPage() {
         {hasError ? (
           <ErrorState message="The Met collection could not be reached." onRetry={retry} />
         ) : (
-          <DepartmentIndex departments={visibleDepartments} emptyMessage={`No department matches “${searchQuery}”.`} />
+          <DepartmentList departments={visibleDepartments} emptyMessage={`No department matches “${searchQuery}”.`} />
         )}
       </section>
     </AppLayout>

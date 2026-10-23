@@ -1,5 +1,5 @@
 import type { ArtworkLocation } from "../models/ArtworkLocation";
-import type { MuseumObject } from "../models/MuseumObject";
+import type { Artwork } from "../models/Artwork";
 
 interface KnownPlace {
   keywords: string[];
@@ -75,7 +75,7 @@ const PLACE_PATTERNS = KNOWN_PLACES.map((place) => ({
   pattern: new RegExp(`\\b(?:${place.keywords.join("|")})\\b`, "i"),
 }));
 
-export function findArtworkLocation(artwork: Pick<MuseumObject, "country" | "culture">): ArtworkLocation | null {
+export function findArtworkLocation(artwork: Pick<Artwork, "country" | "culture">): ArtworkLocation | null {
   // The country is more precise than the culture when the Met fills it in.
   for (const basis of ["country", "culture"] as const) {
     const basisValue = artwork[basis];

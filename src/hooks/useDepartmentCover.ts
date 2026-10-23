@@ -1,6 +1,6 @@
 import useSWR from "swr";
 import { fetchDepartmentHighlightId } from "../api/departmentsApi";
-import { useMuseumObject } from "./useMuseumObject";
+import { useArtwork } from "./useArtwork";
 
 // Cover of a department card: its first highlighted work with an image.
 export function useDepartmentCover(departmentId: number | undefined) {
@@ -8,6 +8,6 @@ export function useDepartmentCover(departmentId: number | undefined) {
     departmentId === undefined ? null : ["department-highlight", departmentId],
     ([, id]) => fetchDepartmentHighlightId(id),
   );
-  const { data: highlight } = useMuseumObject(highlightId);
+  const { data: highlight } = useArtwork(highlightId);
   return { highlight, coverUrl: highlight?.primaryImageSmall };
 }

@@ -3,8 +3,8 @@ import { createRoot } from "react-dom/client";
 import { unstable_HistoryRouter as HistoryRouter } from "react-router";
 import { SWRConfig } from "swr";
 import "./bones/registry";
-import { AppRoutes } from "./components/AppRoutes";
-import { browserHistory } from "./lib/browserHistory";
+import { AppRoutes } from "./router/AppRoutes";
+import { browserHistory } from "./router/browserHistory";
 import "./index.css";
 
 // Flag set by `npm run bones` (boneyard's headless capture) in the page it snapshots.

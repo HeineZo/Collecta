@@ -1,21 +1,21 @@
 import useSWR from "swr";
-import { findOldestObjectId } from "../api/collectionSearchApi";
-import { useMuseumObject } from "./useMuseumObject";
+import { findOldestArtworkId } from "../api/collectionSearchApi";
+import { useArtwork } from "./useArtwork";
 
 const KEEP_PREVIOUS = { keepPreviousData: true };
 
 export function useOldestArtwork(departmentId: number) {
-  const objectIdQuery = useSWR(["oldest-object-id", departmentId], () => findOldestObjectId(departmentId), KEEP_PREVIOUS);
-  const objectQuery = useMuseumObject(objectIdQuery.data, KEEP_PREVIOUS);
+  const artworkIdQuery = useSWR(["oldest-artwork-id", departmentId], () => findOldestArtworkId(departmentId), KEEP_PREVIOUS);
+  const artworkQuery = useArtwork(artworkIdQuery.data, KEEP_PREVIOUS);
 
   return {
-    artwork: objectQuery.data,
-    objectId: objectIdQuery.data,
-    isRefreshing: objectIdQuery.isValidating || objectQuery.isValidating,
-    hasError: Boolean(objectIdQuery.error || objectQuery.error),
+    artwork: artworkQuery.data,
+    artworkId: artworkIdQuery.data,
+    isRefreshing: artworkIdQuery.isValidating || artworkQuery.isValidating,
+    hasError: Boolean(artworkIdQuery.error || artworkQuery.error),
     retry: () => {
-      void objectIdQuery.mutate();
-      void objectQuery.mutate();
+      void artworkIdQuery.mutate();
+      void artworkQuery.mutate();
     },
   };
 }

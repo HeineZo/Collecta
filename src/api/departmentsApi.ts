@@ -24,7 +24,7 @@ interface DepartmentSearchOptions {
   limit: number;
 }
 
-export function searchDepartmentObjects(
+export function searchDepartmentArtworks(
   departmentId: number,
   { searchQuery = "", filters = [], offset = 0, limit }: DepartmentSearchOptions,
 ): Promise<SearchResult> {

@@ -28,7 +28,7 @@ export function fetchCollectionCount(query: CollectionQuery): Promise<number> {
 // The work returned is among the oldest of its department, not necessarily the very oldest.
 const OLDEST_WORK_CUTOFF_YEARS = [-10000, -3000, -1000, -1, 1000, 1500, 1700, 1800, 1900, 2100];
 
-export async function findOldestObjectId(departmentId: number): Promise<number | null> {
+export async function findOldestArtworkId(departmentId: number): Promise<number | null> {
   for (const cutoffYear of OLDEST_WORK_CUTOFF_YEARS) {
     const result = await searchCollection({
       departmentId,
@@ -37,8 +37,8 @@ export async function findOldestObjectId(departmentId: number): Promise<number |
       dateBegin: cutoffYear < 0 ? EARLIEST_YEAR : 1,
       dateEnd: cutoffYear,
     });
-    const objectId = result.objectIDs?.[0];
-    if (objectId) return objectId;
+    const artworkId = result.objectIDs?.[0];
+    if (artworkId) return artworkId;
   }
   return null;
 }
