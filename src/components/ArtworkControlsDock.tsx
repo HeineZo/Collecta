@@ -1,20 +1,28 @@
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
-import type { ReactNode } from "react";
+import { type ReactNode, useEffect, useRef } from "react";
 import { useIsFooterInView } from "../hooks/useIsFooterInView";
+
+export const CONTROL_SELECTOR = "input, button";
 
 interface ArtworkControlsDockProps {
   isVisible: boolean;
+  focusIndex: number;
   children: ReactNode;
 }
 
 // Search and filters pinned to the bottom of the screen once the hero has scrolled away
 export function ArtworkControlsDock({
   isVisible,
+  focusIndex,
   children,
 }: ArtworkControlsDockProps) {
+  const ref = useRef<HTMLDivElement>(null);
   const reduceMotion = useReducedMotion();
   const isFooterInView = useIsFooterInView();
   const isShown = isVisible && !isFooterInView;
+  useEffect(() => {
+    if (isShown && focusIndex >= 0) ref.current?.querySelectorAll<HTMLElement>(CONTROL_SELECTOR)[focusIndex]?.focus();
+  }, [isShown, focusIndex]);
   return (
     <AnimatePresence>
       {isShown && (
@@ -31,6 +39,7 @@ export function ArtworkControlsDock({
       {isShown && (
         <motion.div
           key="controls"
+          ref={ref}
           role="search"
           aria-label="Search and filter artworks"
           initial={{ opacity: 0, y: reduceMotion ? 0 : 32 }}

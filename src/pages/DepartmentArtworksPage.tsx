@@ -10,6 +10,7 @@ import { SearchBar } from "../components/SearchBar";
 import { useArtworkSearchParams } from "../hooks/useArtworkSearchParams";
 import { useDepartmentArtworks } from "../hooks/useDepartmentArtworks";
 import { useDepartmentSummary } from "../hooks/useDepartmentSummary";
+import { useScrollIntoViewOnChange } from "../hooks/useScrollIntoViewOnChange";
 import { formatNumber } from "../lib/formatNumber";
 
 export function DepartmentArtworksPage() {
@@ -18,6 +19,7 @@ export function DepartmentArtworksPage() {
 
   const department = useDepartmentSummary(departmentId);
   const artworks = useDepartmentArtworks(departmentId, searchQuery, filters);
+  const resultsRef = useScrollIntoViewOnChange<HTMLElement>(`${searchQuery}|${filters.join(",")}`);
   const retry = () => {
     department.retry();
     artworks.retry();
@@ -38,13 +40,17 @@ export function DepartmentArtworksPage() {
             label={`Search in ${department.name ?? "this department"}`}
             value={searchInput}
             onChange={setSearchInput}
+            size="lg"
           />
         }
         filters={<ArtworkFilters value={filters} onChange={setFilters} />}
       />
 
-      {/* At least a screen tall so few results never scroll the docked controls away while typing. */}
-      <section aria-label="Artworks" className="department-artworks__results mt-10 min-h-svh pb-20 md:mt-16 md:pb-8">
+      <section
+        ref={resultsRef}
+        aria-label="Artworks"
+        className="department-artworks__results mt-10 scroll-mt-24 min-h-svh pb-20 md:mt-16 md:pb-8"
+      >
         <ResultCount count={artworks.objectIds && artworks.resultCount} noun="works" className="mb-6 md:mb-8" />
         {department.hasError || artworks.hasError ? (
           <ErrorState message="The Met collection could not be reached." onRetry={retry} />

@@ -3,7 +3,7 @@ import { type ReactNode, useRef, useState } from "react";
 import { Link } from "react-router";
 import { useDepartmentCover } from "../hooks/useDepartmentCover";
 import { toWebLarge } from "../lib/toWebLarge";
-import { ArtworkControlsDock } from "./ArtworkControlsDock";
+import { ArtworkControlsDock, CONTROL_SELECTOR } from "./ArtworkControlsDock";
 
 const DOCK_PROGRESS = 0.4;
 
@@ -29,8 +29,18 @@ export function DepartmentArtworksHero({ departmentId, title, description, searc
   const contentOpacity = useTransform(scrollYProgress, [0, DOCK_PROGRESS, DOCK_PROGRESS + 0.1], [1, 0.4, 0]);
   const creditOpacity = useTransform(scrollYProgress, [0, 0.3], [1, 0]);
   
+  const controlsRef = useRef<HTMLDivElement>(null);
   const [isDocked, setIsDocked] = useState(false);
-  useMotionValueEvent(scrollYProgress, "change", (progress) => setIsDocked(progress > DOCK_PROGRESS));
+
+  const [dockFocusIndex, setDockFocusIndex] = useState(-1);
+  useMotionValueEvent(scrollYProgress, "change", (progress) => {
+    const docked = progress > DOCK_PROGRESS;
+    if (docked && !isDocked) {
+      const focusables = [...(controlsRef.current?.querySelectorAll(CONTROL_SELECTOR) ?? [])];
+      setDockFocusIndex(focusables.indexOf(document.activeElement as Element));
+    }
+    setIsDocked(docked);
+  });
   const [isLargeImageLoaded, setIsLargeImageLoaded] = useState(false);
 
   const controls = (
@@ -84,10 +94,12 @@ export function DepartmentArtworksHero({ departmentId, title, description, searc
         </Link>
         <h1 className="min-h-[1lh] text-[42px] leading-[1.02] tracking-[-0.035em] md:text-[72px]">{title}</h1>
         <p className="min-h-[1lh] text-[15px] text-white/75 md:text-[17px]">{description}</p>
-        <div className="mt-4 flex w-full max-w-md items-center gap-2">{controls}</div>
+        <div ref={controlsRef} className="mt-4 flex w-full max-w-md items-center gap-2">
+          {controls}
+        </div>
       </motion.div>
 
-      <ArtworkControlsDock isVisible={isDocked}>{controls}</ArtworkControlsDock>
+      <ArtworkControlsDock isVisible={isDocked} focusIndex={dockFocusIndex}>{controls}</ArtworkControlsDock>
     </section>
   );
 }

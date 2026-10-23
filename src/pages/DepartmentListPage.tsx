@@ -5,6 +5,7 @@ import { DepartmentIndex } from "../components/DepartmentIndex";
 import { ErrorState } from "../components/ErrorState";
 import { SearchBar } from "../components/SearchBar";
 import { useDepartmentsWithTotals } from "../hooks/useDepartmentsWithTotals";
+import { useScrollIntoViewOnChange } from "../hooks/useScrollIntoViewOnChange";
 import { filterDepartments } from "../lib/filterDepartments";
 
 export function DepartmentListPage() {
@@ -14,13 +15,18 @@ export function DepartmentListPage() {
     () => departments && filterDepartments(departments, searchQuery),
     [departments, searchQuery],
   );
+  const searchRef = useScrollIntoViewOnChange<HTMLDivElement>(searchQuery);
 
   return (
     <AppLayout>
       <DepartmentHero
         departments={departments}
         departmentNames={departmentNames}
-        search={<SearchBar label="Search a department" value={searchQuery} onChange={setSearchQuery} isProminent />}
+        search={
+          <div ref={searchRef} className="scroll-mt-28">
+            <SearchBar label="Search a department" value={searchQuery} onChange={setSearchQuery} isProminent />
+          </div>
+        }
       />
 
       <section aria-label="Departments" className="department-list__results mt-10 md:mt-16">

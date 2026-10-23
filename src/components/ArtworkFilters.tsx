@@ -12,6 +12,7 @@ export function ArtworkFilters({ value, onChange }: ArtworkFiltersProps) {
     <Dropdown>
       <Button
         variant="tertiary"
+        size="lg"
         aria-label={value.length > 0 ? `Filters, ${value.length} active` : "Filters"}
         className="artwork-filters shrink-0 [--button-fg:var(--default-foreground)]"
       >
@@ -27,6 +28,7 @@ export function ArtworkFilters({ value, onChange }: ArtworkFiltersProps) {
         <Dropdown.Menu
           aria-label="Filter artworks"
           selectionMode="multiple"
+          shouldCloseOnSelect
           selectedKeys={value}
           onSelectionChange={(keys) => onChange([...keys] as ArtworkFilter[])}
         >
