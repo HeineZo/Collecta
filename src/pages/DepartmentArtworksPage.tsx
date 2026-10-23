@@ -31,7 +31,7 @@ export function DepartmentArtworksPage() {
         departmentId={departmentId}
         title={department.name}
         description={
-          department.totalWorks !== undefined && department.onViewCount !== undefined
+          department.name && department.totalWorks !== undefined && department.onViewCount !== undefined
             ? `${formatNumber(department.totalWorks)} works · ${formatNumber(department.onViewCount)} on view`
             : undefined
         }
@@ -51,18 +51,24 @@ export function DepartmentArtworksPage() {
         aria-label="Artworks"
         className="department-artworks__results mt-10 scroll-mt-24 min-h-svh pb-20 md:mt-16 md:pb-8"
       >
-        <ResultCount count={artworks.objectIds && artworks.resultCount} noun="works" className="mb-6 md:mb-8" />
-        {department.hasError || artworks.hasError ? (
-          <ErrorState message="The Met collection could not be reached." onRetry={retry} />
+        {department.isUnknown ? (
+          <p className="department-artworks__not-found text-muted">This department does not exist.</p>
         ) : (
-          <ArtworkGrid objectIds={artworks.objectIds} emptyMessage="No artwork matches these filters." />
-        )}
-        {artworks.hasMore && (
-          <LoadMoreButton
-            onLoadMore={artworks.loadMore}
-            isLoading={artworks.isLoadingMore}
-            autoLoad={artworks.canAutoLoad}
-          />
+          <>
+            <ResultCount count={artworks.objectIds && artworks.resultCount} noun="works" className="mb-6 md:mb-8" />
+            {department.hasError || artworks.hasError ? (
+              <ErrorState message="The Met collection could not be reached." onRetry={retry} />
+            ) : (
+              <ArtworkGrid objectIds={artworks.objectIds} emptyMessage="No artwork matches these filters." />
+            )}
+            {artworks.hasMore && (
+              <LoadMoreButton
+                onLoadMore={artworks.loadMore}
+                isLoading={artworks.isLoadingMore}
+                autoLoad={artworks.canAutoLoad}
+              />
+            )}
+          </>
         )}
       </section>
     </AppLayout>

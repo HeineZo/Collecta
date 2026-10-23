@@ -23,7 +23,7 @@ interface ImageTrailProps {
 
 // Images pop along the mouse path inside the container, then fade away (ReactBits "Image trail").
 export function ImageTrail({ imageUrls, className = "", children }: ImageTrailProps) {
-  const isReducedMotion = useReducedMotion();
+  const reduceMotion = useReducedMotion();
   const [items, setItems] = useState<TrailItem[]>([]);
   const lastSpawn = useRef<{ x: number; y: number } | null>(null);
   const nextKey = useRef(0);
@@ -55,7 +55,7 @@ export function ImageTrail({ imageUrls, className = "", children }: ImageTrailPr
     <div
       className={`image-trail relative ${className}`}
       onPointerMove={(event) => {
-        if (isReducedMotion || event.pointerType !== "mouse" || !imageUrls.length) return;
+        if (reduceMotion || event.pointerType !== "mouse" || !imageUrls.length) return;
         const rect = event.currentTarget.getBoundingClientRect();
         const x = event.clientX - rect.left;
         const y = event.clientY - rect.top;

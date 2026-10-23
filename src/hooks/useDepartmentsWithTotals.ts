@@ -1,6 +1,7 @@
 import { useMemo } from "react";
 import useSWR from "swr";
-import { fetchDepartments, fetchDepartmentTotal } from "../api/departmentsApi";
+import { fetchCollectionCount } from "../api/collectionSearchApi";
+import { fetchDepartments } from "../api/departmentsApi";
 import type { DepartmentWithTotal } from "../models/DepartmentWithTotal";
 
 export function useDepartmentsWithTotals() {
@@ -11,7 +12,7 @@ export function useDepartmentsWithTotals() {
     () =>
       Promise.all(
         departments!.map((department) =>
-          fetchDepartmentTotal(department.departmentId),
+          fetchCollectionCount({ departmentId: department.departmentId }),
         ),
       ),
   );

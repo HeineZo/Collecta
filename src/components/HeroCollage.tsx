@@ -10,7 +10,7 @@ const SPOTS = [
 ];
 
 export function HeroCollage({ imageUrls }: { imageUrls: string[] }) {
-  const isReducedMotion = useReducedMotion();
+  const reduceMotion = useReducedMotion();
   return (
     <div aria-hidden className="pointer-events-none absolute inset-0 z-0">
       {imageUrls.slice(0, SPOTS.length).map((imageUrl, index) => (
@@ -21,7 +21,7 @@ export function HeroCollage({ imageUrls }: { imageUrls: string[] }) {
           draggable={false}
           className={`absolute max-w-none rounded-2xl object-cover opacity-90 shadow-lg ${SPOTS[index]}`}
           initial={{ opacity: 0, scale: 0.8 }}
-          animate={isReducedMotion ? { opacity: 0.9, scale: 1 } : { opacity: 0.9, scale: 1, y: [0, -10, 0] }}
+          animate={reduceMotion ? { opacity: 0.9, scale: 1 } : { opacity: 0.9, scale: 1, y: [0, -10, 0] }}
           transition={{
             opacity: { duration: 0.8, delay: index * 0.08 },
             scale: { duration: 0.8, delay: index * 0.08 },

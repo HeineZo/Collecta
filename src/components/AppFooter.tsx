@@ -7,8 +7,8 @@ export function AppFooter() {
         <p>
           Data from{" "}
           <ArrowLink
-            href="https://github.com/HeineZo/Collecta"
-            className="app-footer__github"
+            href="https://metmuseum.github.io/"
+            className="app-footer__api"
           >
             The Metropolitan Museum of Art Collection API
           </ArrowLink>

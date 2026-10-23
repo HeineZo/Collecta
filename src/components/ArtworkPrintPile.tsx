@@ -2,6 +2,7 @@ import { Button, ScrollShadow } from "@heroui/react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { type CSSProperties, type KeyboardEvent, useEffect, useRef } from "react";
 import { useScrollEdges } from "../hooks/useScrollEdges";
+import { stepIndex } from "../lib/stepIndex";
 import { toWebLarge } from "../lib/toWebLarge";
 
 interface ArtworkPrintPileProps {
@@ -19,7 +20,6 @@ export function ArtworkPrintPile({ imageUrls, selectedIndex, onSelect, className
   const scrollerRef = useRef<HTMLDivElement>(null);
   const { canScrollBack, canScrollForward } = useScrollEdges(scrollerRef);
   const hasOverflow = canScrollBack || canScrollForward;
-  const indexAt = (offset: number) => (selectedIndex + offset + imageUrls.length) % imageUrls.length;
 
   // Scrolls only the pile
   useEffect(() => {
@@ -37,7 +37,7 @@ export function ArtworkPrintPile({ imageUrls, selectedIndex, onSelect, className
   const selectFromKeyboard = (event: KeyboardEvent, offset: number) => {
     event.preventDefault();
     event.stopPropagation();
-    const index = indexAt(offset);
+    const index = stepIndex(selectedIndex, offset, imageUrls.length);
     onSelect(index);
     (scrollerRef.current!.children[index] as HTMLElement).focus({ preventScroll: true });
   };

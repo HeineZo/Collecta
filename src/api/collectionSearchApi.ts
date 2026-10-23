@@ -5,14 +5,23 @@ import { fetchJson } from "./metMuseumClient";
 // Oldest date the Met uses (prehistoric tools are dated in the hundreds of thousands of years BC).
 export const EARLIEST_YEAR = -1_000_000;
 
-export function searchCollection(query: CollectionQuery, limit = 1): Promise<SearchResult> {
-  const params = new URLSearchParams({ q: "*", limit: String(limit) });
+export function searchCollection(query: CollectionQuery, limit = 1, offset = 0): Promise<SearchResult> {
+  const params = new URLSearchParams({ q: "*", limit: String(limit), offset: String(offset) });
   for (const [key, value] of Object.entries(query)) params.set(key, String(value));
   return fetchJson<SearchResult>(`/v1.1/search?${params}`);
 }
 
-export async function fetchCollectionCount(query: CollectionQuery): Promise<number> {
-  return (await searchCollection(query)).total;
+const counts = new Map<string, Promise<number>>();
+
+export function fetchCollectionCount(query: CollectionQuery): Promise<number> {
+  const key = JSON.stringify(query);
+  let count = counts.get(key);
+  if (!count) {
+    count = searchCollection(query).then((result) => result.total);
+    counts.set(key, count);
+    count.catch(() => counts.delete(key));
+  }
+  return count;
 }
 
 // The search cannot sort by date: ever-later cut-off years are probed until one holds a work.

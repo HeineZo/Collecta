@@ -9,9 +9,5 @@ export function useDepartmentCover(departmentId: number | undefined) {
     ([, id]) => fetchDepartmentHighlightId(id),
   );
   const { data: highlight } = useMuseumObject(highlightId);
-  return {
-    highlight,
-    coverUrl: highlight?.primaryImageSmall,
-    isCoverMissing: highlightId === null || (highlight !== undefined && !highlight.primaryImageSmall),
-  };
+  return { highlight, coverUrl: highlight?.primaryImageSmall };
 }

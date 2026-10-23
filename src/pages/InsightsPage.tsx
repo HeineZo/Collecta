@@ -15,7 +15,8 @@ export function InsightsPage() {
   const { departmentId, setDepartmentId } = useSelectedDepartmentParam();
   const departments = useDepartmentsWithTotals();
   const selectedDepartment = departments.departments?.find((department) => department.departmentId === departmentId);
-  const keyFigures = useCollectionOverview(selectedDepartment?.departmentId ?? null);
+  const selectedId = departments.departments ? (selectedDepartment?.departmentId ?? null) : departmentId;
+  const keyFigures = useCollectionOverview(selectedId);
   const retry = () => {
     departments.retry();
     keyFigures.retry();
@@ -28,7 +29,7 @@ export function InsightsPage() {
         {departments.departments && (
           <DepartmentSelect
             departments={departments.departments}
-            value={selectedDepartment?.departmentId ?? null}
+            value={selectedId}
             onChange={setDepartmentId}
             className="md:max-w-[300px]"
           />
@@ -41,7 +42,7 @@ export function InsightsPage() {
         ) : (
           <>
             <div className={staleClass(keyFigures.isRefreshing)}>
-              <CollectionKeyFigures overview={keyFigures.overview} departmentId={selectedDepartment?.departmentId} />
+              <CollectionKeyFigures overview={keyFigures.overview} departmentId={selectedId ?? undefined} />
             </div>
             {selectedDepartment ? (
               <DepartmentInsights departmentId={selectedDepartment.departmentId} />

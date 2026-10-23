@@ -2,6 +2,7 @@ import { Button } from "@heroui/react";
 import { Maximize2 } from "lucide-react";
 import { startTransition, useState, ViewTransition } from "react";
 import { useArrowKeyNavigation } from "../hooks/useArrowKeyNavigation";
+import { stepIndex } from "../lib/stepIndex";
 import { toWebLarge } from "../lib/toWebLarge";
 import { ArtworkLightbox } from "./ArtworkLightbox";
 import { ArtworkPrintPile } from "./ArtworkPrintPile";
@@ -27,10 +28,9 @@ export function ArtworkGallery({ title, viewTransitionName, imageUrls, className
   const openFullScreen = () => startTransition(() => setIsFullScreen(true));
   const closeFullScreen = () => startTransition(() => setIsFullScreen(false));
 
-  // Full screen has its own arrow keys.
   useArrowKeyNavigation(
-    (offset) => setSelectedIndex((index) => (index + offset + imageUrls.length) % imageUrls.length),
-    !isFullScreen && imageUrls.length > 1,
+    (offset) => setSelectedIndex((index) => stepIndex(index, offset, imageUrls.length)),
+    imageUrls.length > 1,
   );
 
   return (

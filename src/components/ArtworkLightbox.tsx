@@ -2,6 +2,7 @@ import { Button } from "@heroui/react";
 import { ChevronLeft, ChevronRight, X } from "lucide-react";
 import { use, useLayoutEffect, useRef, ViewTransition } from "react";
 import { loadImageRatio } from "../lib/loadImageRatio";
+import { stepIndex } from "../lib/stepIndex";
 import { toWebLarge } from "../lib/toWebLarge";
 import { ArtworkPrintPile } from "./ArtworkPrintPile";
 
@@ -33,7 +34,7 @@ export function ArtworkLightbox({
   const aspectRatios = imageUrls.map((url) => use(loadImageRatio(toWebLarge(url))));
   const aspectRatio = aspectRatios[selectedIndex];
   const hasSeveralImages = imageUrls.length > 1;
-  const showOffset = (offset: number) => onSelect((selectedIndex + offset + imageUrls.length) % imageUrls.length);
+  const showOffset = (offset: number) => onSelect(stepIndex(selectedIndex, offset, imageUrls.length));
 
   // Layout effect so the dialog is already open when the view transition snapshots the new state
   useLayoutEffect(() => {
@@ -49,10 +50,6 @@ export function ArtworkLightbox({
       onCancel={(event) => {
         event.preventDefault();
         onClose();
-      }}
-      onKeyDown={(event) => {
-        if (hasSeveralImages && event.key === "ArrowLeft") showOffset(-1);
-        if (hasSeveralImages && event.key === "ArrowRight") showOffset(1);
       }}
       className="artwork-lightbox fixed inset-0 size-full max-h-none max-w-none bg-transparent backdrop:bg-transparent"
     >
