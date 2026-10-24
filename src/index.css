@@ -140,10 +140,34 @@
     radial-gradient(circle at 50% calc(100% - var(--avatar-radius)), #000 var(--avatar-radius), transparent 0) no-repeat;
 }
 
+@property --lantern-flicker {
+  syntax: "<number>";
+  inherits: false;
+  initial-value: 1;
+}
+.lantern-reveal__darkness {
+  background: radial-gradient(
+    circle calc(clamp(10rem, 24vmax, 20rem) * var(--lantern-flicker)) at var(--lantern-x, 50%) var(--lantern-y, 50%),
+    transparent 20%,
+    rgb(0 0 0 / 0.8) 70%,
+    rgb(0 0 0 / 0.97)
+  );
+  animation: lantern-flicker 2.4s ease-in-out infinite;
+}
+@keyframes lantern-flicker {
+  20% { --lantern-flicker: 0.96; }
+  45% { --lantern-flicker: 1.03; }
+  60% { --lantern-flicker: 0.98; }
+  80% { --lantern-flicker: 1.02; }
+}
+
 @media (prefers-reduced-motion: reduce) {
   ::view-transition-group(*),
   ::view-transition-old(*),
   ::view-transition-new(*) {
     animation: none !important;
+  }
+  .lantern-reveal__darkness {
+    animation: none;
   }
 }

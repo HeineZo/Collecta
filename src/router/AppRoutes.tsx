@@ -6,6 +6,7 @@ import { ArtworkDetailPage } from "../pages/ArtworkDetailPage";
 import { DepartmentArtworksPage } from "../pages/DepartmentArtworksPage";
 import { DepartmentListPage } from "../pages/DepartmentListPage";
 import { InsightsPage } from "../pages/InsightsPage";
+import { NotFoundPage } from "../pages/NotFoundPage";
 
 export function AppRoutes() {
   const navigate = useNavigate();
@@ -25,6 +26,7 @@ export function AppRoutes() {
           <Route path="/departments/:departmentId" element={<DepartmentArtworksPage />} />
           <Route path="/departments/:departmentId/artworks/:artworkId" element={<ArtworkDetailPage />} />
           <Route path="/insights" element={<InsightsPage />} />
+          <Route path="*" element={<NotFoundPage />} />
         </Routes>
       </ViewTransition>
     </RouterProvider>
